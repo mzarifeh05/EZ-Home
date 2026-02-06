@@ -5,10 +5,12 @@ import lockIcon from '../../assets/lock-icon.svg'
 import phoneIcon from '../../assets/phone-icon.svg'
 import personIcon from '../../assets/person-icon.svg'
 import { Link } from 'react-router-dom';
+import WarningPopup from '../../components/Warning-Popup/WarningPopup';
 
 const Register = () => {
     const [user, setUser] = useState({ name: "", phone: "", pass: "" });
-    const [conPass, setConPass] = useState("")
+    const [conPass, setConPass] = useState("");
+    const [warning, setWarning] = useState(false);
 
     const handlePhoneChange = (e) => {
         const val = e.target.value;
@@ -41,6 +43,13 @@ const Register = () => {
             return false;
         return true;
     }
+
+    const hanldeSubmitClick = () => {
+        if (!inputValidation()) {
+            setWarning(true);
+            return;
+        }
+    };
 
     return (
         <div className={style.container}>
@@ -80,13 +89,14 @@ const Register = () => {
                         type="password"
                         placeholder='تأكيد كلمة المرور' />
                 </div>
-                <button className={style.button}>إنشاء حساب</button>
+                <button onClick={hanldeSubmitClick} className={style.button}>إنشاء حساب</button>
                 <p className={style.p}>لديك حساب بالفعل؟
                     <Link className={style.link} to="/Login">
                         <span> تسجيل الدخول</span>
                     </Link>
                 </p>
             </div>
+            {warning && <WarningPopup close={() => setWarning(false)} />}
         </div>
     )
 }
