@@ -1,0 +1,106 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    background-color: #060F2C;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    justify-content: center;
+}
+
+.box {
+    background-color: #060F2C;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+    border: solid 2px whitesmoke;
+    box-shadow: 5px 5px 15px rgba(75, 75, 75, 0.5);
+    color: white;
+    border-radius: 10px;
+    gap: 20px;
+}
+
+.inputBox {
+    background-color: white;
+    display: flex;
+    padding: 7px 20px;
+    align-items: center;
+    justify-content: start;
+    width: 300px;
+    border-radius: 10px;
+    justify-content: space-between;
+    border: solid 2px;
+}
+
+.inputBox:focus-within {
+    border-color: #EB8E1E;
+    box-shadow: 0 0 0 1px #EB8E1E;
+}
+
+.inputBox input {
+    outline: none;
+    border: none;
+    width: 220px;
+    display: flex;
+    padding: 5px;
+    font-weight: 700;
+    font-size: 1rem;
+    direction: ltr;
+    text-align: end;
+}
+
+.inputBox input::placeholder {
+    color: gray;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.button {
+    background-color: #EB8E1E;
+    width: 300px;
+    border: none;
+    color: #060F2C;
+    font-weight: bolder;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(235, 142, 30, 0.4);
+}
+
+.button:active {
+    color: white;
+}
+
+.p span {
+    color: #EB8E1E;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.p span:hover {
+    text-decoration: underline;
+}
+
+.image {
+    width: 100px;
+    border-radius: 50px;
+    border: solid 3px #EB8E1E;
+}
+
+.link {
+    color: white;
+    text-decoration: none;
+}
