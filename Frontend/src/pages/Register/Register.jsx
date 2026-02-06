@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import style from './Register.module.css'
-import logoImg from '../../assets/logo.jpg';
 import lockIcon from '../../assets/lock-icon.svg'
 import phoneIcon from '../../assets/phone-icon.svg'
 import personIcon from '../../assets/person-icon.svg'
@@ -15,36 +14,33 @@ const Register = () => {
     const handlePhoneChange = (e) => {
         const val = e.target.value;
         if (val === "" || /^\d+$/.test(val))
-            if (val.length <= 10)
+            if (val.length <= 9)
                 setUser(u => ({ ...u, phone: val }));
     };
 
     const handlePassChange = (e) => {
         setUser(u => ({ ...u, pass: e.target.value }));
-        console.log(e.target.value)
     };
 
-    const handleNamechange = (e) => {
+    const handleNameChange = (e) => {
         setUser(u => ({ ...u, name: e.target.value }));
-        console.log(e.target.value)
     };
 
     const handleConPassChange = (e) => {
         setConPass(e.target.value);
-        console.log(e.target.value)
     };
 
     function inputValidation() {
         if (!user.phone.trim() || !user.pass.trim() || !user.name.trim() || !conPass.trim())
             return false;
-        if (user.phone.length !== 10)
+        if (user.phone.length !== 9)
             return false;
         if (user.pass !== conPass)
             return false;
         return true;
     }
 
-    const hanldeSubmitClick = () => {
+    const handleSubmitClick = () => {
         if (!inputValidation()) {
             setWarning(true);
             return;
@@ -54,48 +50,84 @@ const Register = () => {
     return (
         <div className={style.container}>
             <div className={style.box}>
-                <img className={style.image} src={logoImg} alt="" />
                 <h1>إنشاء حساب</h1>
-                <div className={style.inputBox}>
-                    <img src={personIcon} />
-                    <input
-                        value={user.name}
-                        onChange={(e) => handleNamechange(e)}
-                        type="text"
-                        placeholder='اسم المستخدم' />
+
+                <div className={style.field}>
+                    <label>اسم المستخدم</label>
+
+                    <div className={style.inputBox}>
+                        <img src={personIcon} alt="person" className={style.iconOnly}/>
+                        <input
+                            value={user.name}
+                            onChange={handleNameChange}
+                            type="text"
+                            placeholder='full name'
+                        />
+                    </div>
                 </div>
-                <div className={style.inputBox}>
-                    <img src={phoneIcon} />
-                    <input
-                        value={user.phone}
-                        onChange={(e) => handlePhoneChange(e)}
-                        type="text"
-                        inputMode="numeric"
-                        placeholder='رقم الهاتف' />
+
+                <div className={style.field}>
+                    <label>رقم الهاتف</label>
+
+                    <div className={style.inputBox}>
+                        <div className={style.prefix}>
+                            <img src={phoneIcon} alt="phone" />
+                            <span>+962</span>
+                        </div>
+
+                        <input
+                            dir="ltr"
+                            value={user.phone}
+                            onChange={handlePhoneChange}
+                            type="text"
+                            inputMode="numeric"
+                            placeholder='7XXXXXXXX'
+                        />
+                    </div>
                 </div>
-                <div className={style.inputBox}>
-                    <img src={lockIcon} />
-                    <input
-                        value={user.pass}
-                        onChange={(e) => handlePassChange(e)}
-                        type="password"
-                        placeholder='كلمة المرور' />
+
+                <div className={style.field}>
+                    <label>كلمة المرور</label>
+
+                    <div className={style.inputBox}>
+                        <img src={lockIcon} alt="lock" className={style.iconOnly}/>
+                        <input
+                            dir="ltr"
+                            value={user.pass}
+                            onChange={handlePassChange}
+                            type="password"
+                            placeholder='password'
+                        />
+                    </div>
                 </div>
-                <div className={style.inputBox}>
-                    <img src={lockIcon} />
-                    <input
-                        value={conPass}
-                        onChange={(e) => handleConPassChange(e)}
-                        type="password"
-                        placeholder='تأكيد كلمة المرور' />
+
+                <div className={style.field}>
+                    <label>تأكيد كلمة المرور</label>
+
+                    <div className={style.inputBox}>
+                        <img src={lockIcon} alt="lock" className={style.iconOnly}/>
+                        <input
+                            dir="ltr"
+                            value={conPass}
+                            onChange={handleConPassChange}
+                            type="password"
+                            placeholder='confirm password'
+                        />
+                    </div>
                 </div>
-                <button onClick={hanldeSubmitClick} className={style.button}>إنشاء حساب</button>
-                <p className={style.p}>لديك حساب بالفعل؟
+
+                <button onClick={handleSubmitClick} className={style.button}>
+                    إنشاء حساب
+                </button>
+
+                <p className={style.p}>
+                    لديك حساب بالفعل؟
                     <Link className={style.link} to="/Login">
                         <span> تسجيل الدخول</span>
                     </Link>
                 </p>
             </div>
+
             {warning && <WarningPopup close={() => setWarning(false)} />}
         </div>
     )
