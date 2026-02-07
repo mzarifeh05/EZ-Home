@@ -4,6 +4,7 @@ import lockIcon from '../../assets/lock-icon.svg'
 import phoneIcon from '../../assets/phone-icon.svg'
 import { Link } from 'react-router-dom';
 import WarningPopup from '../../components/Warning-Popup/WarningPopup';
+import Navbar from '../../components/Navbar/Navbar';
 
 const Login = () => {
     const [user, setUser] = useState({ phone: "", pass: "" });
@@ -36,6 +37,8 @@ const Login = () => {
     };
 
     return (
+        <>
+        <Navbar removed={false}/>
         <div className={style.container}>
             <div className={style.box}>
                 <h1>تسجيل الدخول</h1>
@@ -88,6 +91,7 @@ const Login = () => {
 
             {warning && <WarningPopup close={() => setWarning(false)} />}
         </div>
+        </>
     )
 }
 

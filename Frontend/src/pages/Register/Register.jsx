@@ -5,6 +5,7 @@ import phoneIcon from '../../assets/phone-icon.svg'
 import personIcon from '../../assets/person-icon.svg'
 import { Link } from 'react-router-dom';
 import WarningPopup from '../../components/Warning-Popup/WarningPopup';
+import Navbar from '../../components/Navbar/Navbar'
 
 const Register = () => {
     const [user, setUser] = useState({ name: "", phone: "", pass: "" });
@@ -48,88 +49,91 @@ const Register = () => {
     };
 
     return (
-        <div className={style.container}>
-            <div className={style.box}>
-                <h1>إنشاء حساب</h1>
+        <>
+            <Navbar removed={false}/>
+            <div className={style.container}>
+                <div className={style.box}>
+                    <h1>إنشاء حساب</h1>
 
-                <div className={style.field}>
-                    <label>اسم المستخدم</label>
+                    <div className={style.field}>
+                        <label>اسم المستخدم</label>
 
-                    <div className={style.inputBox}>
-                        <img src={personIcon} alt="person" className={style.iconOnly}/>
-                        <input
-                            value={user.name}
-                            onChange={handleNameChange}
-                            type="text"
-                            placeholder='full name'
-                        />
-                    </div>
-                </div>
-
-                <div className={style.field}>
-                    <label>رقم الهاتف</label>
-
-                    <div className={style.inputBox}>
-                        <div className={style.prefix}>
-                            <img src={phoneIcon} alt="phone" />
-                            <span>+962</span>
+                        <div className={style.inputBox}>
+                            <img src={personIcon} alt="person" className={style.iconOnly} />
+                            <input
+                                value={user.name}
+                                onChange={handleNameChange}
+                                type="text"
+                                placeholder='full name'
+                            />
                         </div>
-
-                        <input
-                            dir="ltr"
-                            value={user.phone}
-                            onChange={handlePhoneChange}
-                            type="text"
-                            inputMode="numeric"
-                            placeholder='7XXXXXXXX'
-                        />
                     </div>
+
+                    <div className={style.field}>
+                        <label>رقم الهاتف</label>
+
+                        <div className={style.inputBox}>
+                            <div className={style.prefix}>
+                                <img src={phoneIcon} alt="phone" />
+                                <span>+962</span>
+                            </div>
+
+                            <input
+                                dir="ltr"
+                                value={user.phone}
+                                onChange={handlePhoneChange}
+                                type="text"
+                                inputMode="numeric"
+                                placeholder='7XXXXXXXX'
+                            />
+                        </div>
+                    </div>
+
+                    <div className={style.field}>
+                        <label>كلمة المرور</label>
+
+                        <div className={style.inputBox}>
+                            <img src={lockIcon} alt="lock" className={style.iconOnly} />
+                            <input
+                                dir="ltr"
+                                value={user.pass}
+                                onChange={handlePassChange}
+                                type="password"
+                                placeholder='password'
+                            />
+                        </div>
+                    </div>
+
+                    <div className={style.field}>
+                        <label>تأكيد كلمة المرور</label>
+
+                        <div className={style.inputBox}>
+                            <img src={lockIcon} alt="lock" className={style.iconOnly} />
+                            <input
+                                dir="ltr"
+                                value={conPass}
+                                onChange={handleConPassChange}
+                                type="password"
+                                placeholder='confirm password'
+                            />
+                        </div>
+                    </div>
+
+                    <button onClick={handleSubmitClick} className={style.button}>
+                        إنشاء حساب
+                    </button>
+
+                    <p className={style.p}>
+                        لديك حساب بالفعل؟
+                        <Link className={style.link} to="/Login">
+                            <span> تسجيل الدخول</span>
+                        </Link>
+                    </p>
                 </div>
 
-                <div className={style.field}>
-                    <label>كلمة المرور</label>
-
-                    <div className={style.inputBox}>
-                        <img src={lockIcon} alt="lock" className={style.iconOnly}/>
-                        <input
-                            dir="ltr"
-                            value={user.pass}
-                            onChange={handlePassChange}
-                            type="password"
-                            placeholder='password'
-                        />
-                    </div>
-                </div>
-
-                <div className={style.field}>
-                    <label>تأكيد كلمة المرور</label>
-
-                    <div className={style.inputBox}>
-                        <img src={lockIcon} alt="lock" className={style.iconOnly}/>
-                        <input
-                            dir="ltr"
-                            value={conPass}
-                            onChange={handleConPassChange}
-                            type="password"
-                            placeholder='confirm password'
-                        />
-                    </div>
-                </div>
-
-                <button onClick={handleSubmitClick} className={style.button}>
-                    إنشاء حساب
-                </button>
-
-                <p className={style.p}>
-                    لديك حساب بالفعل؟
-                    <Link className={style.link} to="/Login">
-                        <span> تسجيل الدخول</span>
-                    </Link>
-                </p>
+                {warning && <WarningPopup close={() => setWarning(false)} />}
             </div>
-
-            {warning && <WarningPopup close={() => setWarning(false)} />}
-        </div>
+        </>
     )
 }
 

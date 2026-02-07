@@ -1,0 +1,121 @@
+.container {
+    display: flex;
+    direction: ltr;
+    align-items: center;
+    background-color: #060F2C;
+    justify-content: space-around;
+    width: 80%;
+    position: fixed;
+    top: 0;
+    left: 10%;
+}
+
+.container>img {
+    width: 80px;
+}
+
+.container>img:hover {
+    cursor: pointer;
+}
+
+.container .searchContainer {
+    width: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 50px;
+}
+
+.container .searchContainer:focus-within {
+    border: solid 3px;
+    border-color: #EB8E1E;
+}
+
+.container .searchContainer label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 50px;
+    background-color: #EB8E1E;
+    padding: 11px;
+}
+
+.container .searchContainer label img {
+    width: 25px;
+}
+
+.container .icons {
+    width: 150px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.container .searchContainer input {
+    width: 300px;
+    border: none;
+    outline: none;
+    padding: 10px;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
+
+.container .searchContainer input {
+    font-weight: bolder;
+}
+
+.container .icons img {
+    width: 35px;
+}
+
+.container .icons img:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.container .icons img:active {
+    transform: scale(0.9);
+}
+
+@media (max-width: 750px) {
+    .container {
+        width: 100%;
+        left: 0;
+        justify-content: center;
+        gap: 50px;
+        padding: 0 20px;
+    }
+
+    .container .searchContainer {
+        width: 300px;
+    }
+}
+
+.menu {
+    display: none;
+}
+
+.menu img {
+    width: 35px;
+    cursor: pointer;
+}
+
+@media (max-width: 650px) {
+    .container {
+        padding: 0 10px;
+        gap: 10px;
+    }
+
+    .menu {
+        display: flex;
+    }
+
+    .container .icons {
+        display: none;
+    }
+
+    .container .searchContainer {
+        width: 250px;
+    }
+}

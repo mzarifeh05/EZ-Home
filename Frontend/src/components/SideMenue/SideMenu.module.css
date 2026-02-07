@@ -1,0 +1,51 @@
+.container {
+    background-color: whitesmoke;
+    position: fixed;
+    top: 80px;
+    padding: 20px 10px;
+    border-radius: 10px;
+    right: 5px;
+    width: 150px;
+    color: #060F2C;
+    border-top: solid 5px #EB8E1E;
+    animation: popupScale 0.5s ease;
+}
+
+@media (min-width: 650px) {
+    .container {
+        display: none;
+    }
+}
+
+@keyframes popupScale {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.container .section {
+    display: flex;
+    align-items: center;
+    width: 100px;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: bolder;
+}
+
+.container .section:hover {
+    transform: scale(1.1);
+}
+
+.container .section:active {
+    transform: scale(0.9);
+}
+
+.container .section:nth-child(2) {
+    margin: 10px 0;
+}
