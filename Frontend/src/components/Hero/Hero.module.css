@@ -22,6 +22,9 @@
 .container img {
     width: 300px;
     cursor: pointer;
+}
+
+.container img:hover {
     filter: drop-shadow(0 0 2em #0094bcaa);
 }
 
@@ -45,11 +48,11 @@
     }
 } */
 
-@media (prefers-reduced-motion: no-preference) {
+/* @media (prefers-reduced-motion: no-preference) {
     .container img {
         animation: logo-spin infinite 20s linear;
     }
-}
+} */
 
 .container .content button {
     color: #060F2C;

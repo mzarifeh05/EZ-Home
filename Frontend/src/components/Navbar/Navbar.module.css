@@ -3,7 +3,7 @@
     direction: ltr;
     align-items: center;
     background-color: #060F2C;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 80%;
     position: fixed;
     top: 0;
@@ -43,6 +43,7 @@
 }
 
 .container .searchContainer label img {
+    cursor: pointer;
     width: 30px;
 }
 

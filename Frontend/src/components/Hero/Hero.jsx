@@ -2,7 +2,7 @@ import React from 'react'
 import style from './Hero.module.css'
 import heroImg from '../../assets/hero-cover.png'
 
-const Hero = () => {
+const Hero = ({ onProductsClick }) => {
     return (
         <>
             <div className={style.container}>
@@ -15,7 +15,7 @@ const Hero = () => {
                     <h3>
                         راحتك تبدأ من هنا
                     </h3>
-                    <button>
+                    <button onClick={onProductsClick}>
                         تسوّق الآن
                     </button>
                 </div>
