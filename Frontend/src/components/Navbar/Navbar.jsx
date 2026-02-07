@@ -9,7 +9,7 @@ import closeIcon from '../../assets/close-icon.svg'
 import profileIcon from '../../assets/profile-icon.svg'
 import SideMenue from '../SideMenue/SideMenue'
 
-const Navbar = ({ removed = true }) => {
+const Navbar = ({ removed = false }) => {
     const [open, setOpen] = useState(true);
     const [side, setSide] = useState(false);
     return (
@@ -17,7 +17,7 @@ const Navbar = ({ removed = true }) => {
             <SideMenue display={side} />
             <div className={style.container}>
                 <img src={logo} alt="logo" />
-                {removed && <div className={style.searchContainer}>
+                {!removed && <div className={style.searchContainer}>
                     <input
                         placeholder='بحث عن منتج'
                         dir='rtl'
@@ -27,12 +27,12 @@ const Navbar = ({ removed = true }) => {
                         <img src={searchIcon} alt="search-icon" />
                     </label>
                 </div>}
-                {removed && <div className={style.icons}>
+                {!removed && <div className={style.icons}>
                     <img src={favoriteIcon} alt="favorite-icon" />
                     <img src={cartIcon} alt="cart-icon" />
                     <img src={profileIcon} alt="profile-icon" />
                 </div>}
-                {removed && <div className={style.menu}>
+                {!removed && <div className={style.menu}>
                     {open 
                     ? <img onClick={() => {setOpen(!open); setSide(!side)}} src={menueIcon} />
                     : <img onClick={() => {setOpen(!open); setSide(!side)}} src={closeIcon} />

@@ -38,7 +38,7 @@ const Login = () => {
 
     return (
         <>
-        <Navbar removed={false}/>
+        <Navbar removed={true}/>
         <div className={style.container}>
             <div className={style.box}>
                 <h1>تسجيل الدخول</h1>
@@ -83,7 +83,7 @@ const Login = () => {
 
                 <p className={style.p}>
                     ليس لديك حساب؟
-                    <Link className={style.link} to="/">
+                    <Link className={style.link} to="/Register">
                         <span> إنشاء حساب</span>
                     </Link>
                 </p>

@@ -50,7 +50,7 @@ const Register = () => {
 
     return (
         <>
-            <Navbar removed={false}/>
+            <Navbar removed={true}/>
             <div className={style.container}>
                 <div className={style.box}>
                     <h1>إنشاء حساب</h1>

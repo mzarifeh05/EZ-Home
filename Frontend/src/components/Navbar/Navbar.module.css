@@ -11,7 +11,7 @@
 }
 
 .container>img {
-    width: 80px;
+    width: 100px;
 }
 
 .container>img:hover {
@@ -43,17 +43,17 @@
 }
 
 .container .searchContainer label img {
-    width: 25px;
+    width: 30px;
 }
 
 .container .icons {
-    width: 150px;
+    width: 200px;
     display: flex;
     justify-content: space-between;
 }
 
 .container .searchContainer input {
-    width: 300px;
+    width: 290px;
     border: none;
     outline: none;
     padding: 10px;
@@ -66,7 +66,7 @@
 }
 
 .container .icons img {
-    width: 35px;
+    width: 45px;
 }
 
 .container .icons img:hover {
@@ -78,7 +78,7 @@
     transform: scale(0.9);
 }
 
-@media (max-width: 750px) {
+@media (max-width: 850px) {
     .container {
         width: 100%;
         left: 0;
@@ -87,8 +87,20 @@
         padding: 0 20px;
     }
 
+    .container .searchContainer label img {
+        width: 25px;
+    }
+
     .container .searchContainer {
         width: 300px;
+    }
+
+    .container .icons {
+        width: 152px;
+    }
+
+    .container .icons img {
+        width: 35px;
     }
 }
 
@@ -97,14 +109,15 @@
 }
 
 .menu img {
-    width: 35px;
+    width: 40px;
     cursor: pointer;
 }
 
 @media (max-width: 650px) {
     .container {
         padding: 0 10px;
-        gap: 10px;
+        justify-content: space-between;
+        gap: 0;
     }
 
     .menu {
@@ -117,5 +130,14 @@
 
     .container .searchContainer {
         width: 250px;
+    }
+}
+
+@media (max-width: 450px) {
+    .container .searchContainer input {
+        width: 125px;
+    }
+    .container .searchContainer {
+        width: 175px;
     }
 }
