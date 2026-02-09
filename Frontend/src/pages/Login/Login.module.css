@@ -125,3 +125,7 @@
         width: 325px;
     }
 }
+
+.logo img {
+    width: 100px;
+}

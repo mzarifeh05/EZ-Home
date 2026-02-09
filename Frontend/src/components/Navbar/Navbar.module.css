@@ -5,9 +5,7 @@
     background-color: #060F2C;
     justify-content: space-between;
     width: 80%;
-    position: fixed;
-    top: 0;
-    left: 10%;
+    margin: auto;
 }
 
 .container>img {
@@ -19,7 +17,7 @@
 }
 
 .container .searchContainer {
-    width: 350px;
+    width: 300px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -44,17 +42,17 @@
 
 .container .searchContainer label img {
     cursor: pointer;
-    width: 30px;
+    width: 25px;
 }
 
 .container .icons {
-    width: 200px;
+    width: 225px;
     display: flex;
     justify-content: space-between;
 }
 
 .container .searchContainer input {
-    width: 290px;
+    width: 240px;
     border: none;
     outline: none;
     padding: 10px;
@@ -67,7 +65,7 @@
 }
 
 .container .icons img {
-    width: 45px;
+    width: 40px;
 }
 
 .container .icons img:hover {
@@ -83,25 +81,8 @@
     .container {
         width: 100%;
         left: 0;
-        justify-content: center;
         gap: 50px;
         padding: 0 20px;
-    }
-
-    .container .searchContainer label img {
-        width: 25px;
-    }
-
-    .container .searchContainer {
-        width: 300px;
-    }
-
-    .container .icons {
-        width: 152px;
-    }
-
-    .container .icons img {
-        width: 35px;
     }
 }
 
@@ -130,15 +111,10 @@
     }
 
     .container .searchContainer {
-        width: 250px;
+        width: 225px;
     }
-}
 
-@media (max-width: 450px) {
     .container .searchContainer input {
-        width: 125px;
-    }
-    .container .searchContainer {
         width: 175px;
     }
 }

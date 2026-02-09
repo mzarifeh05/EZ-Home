@@ -5,7 +5,7 @@ import phoneIcon from '../../assets/phone-icon.svg'
 import personIcon from '../../assets/person-icon.svg'
 import { Link } from 'react-router-dom';
 import WarningPopup from '../../components/Warning-Popup/WarningPopup';
-import Navbar from '../../components/Navbar/Navbar'
+import logo from '../../assets/logo.jpg'
 
 const Register = () => {
     const [user, setUser] = useState({ name: "", phone: "", pass: "" });
@@ -50,8 +50,12 @@ const Register = () => {
 
     return (
         <>
-            <Navbar removed={true}/>
             <div className={style.container}>
+            <div className={style.logo}>
+                <Link to="/">
+                    <img src={logo} alt="" />
+                </Link>
+            </div>
                 <div className={style.box}>
                     <h1>إنشاء حساب</h1>
 

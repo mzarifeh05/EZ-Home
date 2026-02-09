@@ -1,12 +1,11 @@
 .container {
     background-color: #060F2C;
     display: flex;
-    padding: 150px 0 150px 0;
     width: 80%;
     margin: auto;
     justify-content: space-around;
     align-items: center;
-    min-height: 100vh;
+    min-height: 90vh;
 }
 
 .container .content {
@@ -22,6 +21,10 @@
 .container img {
     width: 300px;
     cursor: pointer;
+}
+
+.content h3 {
+    color: rgba(255, 255, 255, 0.9);
 }
 
 /* .container img:hover {
@@ -81,8 +84,8 @@
         font-size: 0.9rem;
         width: 100%;
         justify-content: center;
-        padding-top: 100px;
         gap: 25px;
+        min-height: auto;
     }
 
     .container img {

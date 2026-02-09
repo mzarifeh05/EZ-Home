@@ -3,6 +3,7 @@ import style from './Home.module.css'
 import Navbar from '../../components/Navbar/Navbar';
 import Hero from '../../components/Hero/Hero';
 import Card from '../../components/Card/Card';
+import Footer from '../../components/Footer/Footer';
 
 
 const Home = () => {
@@ -39,6 +40,7 @@ const Home = () => {
                     <Card />
                 </div>
             </div>
+            <Footer />
         </>
     )
 }
