@@ -8,6 +8,10 @@ const CategorySchema = new mongo.Schema({
   },
     image: {
     type: String
+  },
+    isActive: {
+    type: Boolean,
+    default: true
   }
 }, {
     timestamps: true

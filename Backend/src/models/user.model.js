@@ -18,7 +18,7 @@ const UserSchema = new mongo.Schema({
         type: String,
         enum: ["user", "admin"],
         default: "user"
-    }
+    },
 
 }, {
     timestamps: true
