@@ -18,7 +18,7 @@ class AuthService {
       throw createError(400, 'رقم الهاتف وكلمة المرور مطلوبان');
     }
 
-    const user = await User.findOne({ phone });
+    const user = await User.findOne({ phone }).select('+password');
     if (!user) throw createError(401, 'رقم الهاتف أو كلمة المرور غير صحيحة');
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -75,7 +75,7 @@ class AuthService {
       .select('-password')
       .lean();
   }
-  
+
 }
 
 module.exports = new AuthService();

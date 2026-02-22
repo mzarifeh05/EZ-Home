@@ -73,22 +73,39 @@ class AuthController {
     });
   }
 
-  async update(req, res) {
+  // تعديل بيانات المستخدم الحالي
+  async updateMe(req, res) {
     try {
-        const user = await authService.update(req.params.id, req.body);
-    return res.json({
-      success: true,
-      data: user
-    });
-    }catch (error) {
-        return res.status(getStatusCode(error)).json({
-            success: false,
-            message: error.message,
-            error: error.message
-          });
+      const user = await authService.update(req.user._id, req.body);
+      return res.json({
+        success: true,
+        data: user
+      });
+    } catch (error) {
+      return res.status(getStatusCode(error)).json({
+        success: false,
+        message: error.message,
+        error: error.message
+      });
     }
   }
 
+  // تعديل مستخدم بواسطة الأدمن
+  async update(req, res) {
+    try {
+      const user = await authService.update(req.params.id, req.body);
+      return res.json({
+        success: true,
+        data: user
+      });
+    } catch (error) {
+      return res.status(getStatusCode(error)).json({
+        success: false,
+        message: error.message,
+        error: error.message
+      });
+    }
+  }
 }
 
 module.exports = new AuthController();
