@@ -8,6 +8,7 @@ const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN;
 function createError(status, message) {
   const err = new Error(message);
   err.status = status;
+  err.statusCode = status;
   return err;
 }
 
@@ -74,6 +75,7 @@ class AuthService {
       .select('-password')
       .lean();
   }
+  
 }
 
 module.exports = new AuthService();

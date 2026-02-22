@@ -1,5 +1,16 @@
+const resolveStatusCode = (err) => {
+  const statusCode = Number(err?.statusCode ?? err?.status);
+
+  if (Number.isInteger(statusCode) && statusCode >= 100 && statusCode <= 599) {
+    return statusCode;
+  }
+
+  return 500;
+};
+
 const errorHandler = (err, req, res, next) => {
   console.error('Error:', err);
+  const statusCode = resolveStatusCode(err);
 
   if (err.name === 'JsonWebTokenError') {
     return res.status(401).json({
@@ -23,7 +34,7 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
-  res.status(err.statusCode || 500).json({
+  res.status(statusCode).json({
     success: false,
     message: err.message || 'حدث خطأ في الخادم',
     ...(process.env.NODE_ENV === 'development' && { stack: err.stack })

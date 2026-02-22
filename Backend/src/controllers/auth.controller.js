@@ -1,5 +1,11 @@
 const authService = require('../services/auth.service');
 
+const getStatusCode = (error) => {
+  const statusCode = Number(error?.statusCode ?? error?.status);
+  return Number.isInteger(statusCode) && statusCode >= 100 && statusCode <= 599
+    ? statusCode
+    : 500;
+};
 
 class AuthController {
   async login(req, res) {
@@ -12,7 +18,7 @@ class AuthController {
         data
       });
     } catch (error) {
-      return res.status(error.status).json({
+      return res.status(getStatusCode(error)).json({
         success: false,
         message: error.message,
         error: error.message
@@ -30,7 +36,7 @@ class AuthController {
         data
       });
     } catch (error) {
-      return res.status(error.status).json({
+      return res.status(getStatusCode(error)).json({
         success: false,
         message: error.message,
         error: error.message
@@ -39,10 +45,18 @@ class AuthController {
   }
 
   async logout(req, res) {
-    return res.json({
-      success: true,
-      message: 'تم تسجيل الخروج بنجاح'
-    });
+    try {
+      return res.json({
+        success: true,
+        message: 'تم تسجيل الخروج بنجاح'
+      });
+    } catch (error) {
+      return res.status(getStatusCode(error)).json({
+        success: false,
+        message: error.message,
+        error: error.message
+      });
+    }
   }
 
   async getMe(req, res) {
@@ -67,7 +81,7 @@ class AuthController {
       data: user
     });
     }catch (error) {
-        return res.status(error.status).json({
+        return res.status(getStatusCode(error)).json({
             success: false,
             message: error.message,
             error: error.message

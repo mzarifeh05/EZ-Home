@@ -6,9 +6,6 @@ const app = require('./src/app.js');
 const port = process.env.port
 
 
-
-
-
    const startServer =  async ()=> {
     try{
         connectDB();

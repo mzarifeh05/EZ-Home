@@ -6,9 +6,6 @@ const CategorySchema = new mongo.Schema({
     unique: true,
     trim: true
   },
-    image: {
-    type: String
-  },
     isActive: {
     type: Boolean,
     default: true
