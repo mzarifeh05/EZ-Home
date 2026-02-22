@@ -1,8 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
 
-const JWT_SECRET = process.env.JWT_SECRET;
-
 const authMiddleware = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
@@ -14,6 +12,7 @@ const authMiddleware = async (req, res, next) => {
       });
     }
 
+    const JWT_SECRET = process.env.JWT_SECRET;
     if (!JWT_SECRET) {
       return res.status(500).json({
         success: false,
@@ -35,7 +34,7 @@ const authMiddleware = async (req, res, next) => {
 
     req.user = user;
     return next();
-     
+
   } catch (error) {
     return res.status(401).json({
       success: false,
@@ -46,6 +45,13 @@ const authMiddleware = async (req, res, next) => {
 
 const authorize = (roles) => {
   return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'unauthorized'
+      });
+    }
+
     if (!Array.isArray(roles) || !roles.includes(req.user.role)) {
       return res.status(403).json({
         success: false,
