@@ -2,8 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
 
-const JWT_SECRET = process.env.JWT_SECRET;
-const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN;
+const { JWT_SECRET, JWT_EXPIRES_IN } = require('../config/env');
 
 function createError(status, message) {
   const err = new Error(message);
@@ -33,6 +32,7 @@ class AuthService {
     const safeUser = await User.findById(user._id).select('-password').lean();
     return { user: safeUser, token };
   }
+
   async register({ fullName, phone, password }) {
     if (!fullName || !phone || !password) {
       throw createError(400, 'جميع الحقول مطلوبة');
@@ -58,11 +58,13 @@ class AuthService {
     const safeUser = await User.findById(newUser._id).select('-password').lean();
     return { user: safeUser, token };
   }
+
   async getMe(userId) {
     const user = await User.findById(userId).select('-password').lean();
     if (!user) throw createError(404, 'المستخدم غير موجود');
     return user;
   }
+  
   async update(id, payload) {
     const { password, ...rest } = payload;
     const updateData = { ...rest };

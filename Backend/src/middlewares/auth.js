@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
+const { JWT_SECRET } = require('../config/env');
 
 const authMiddleware = async (req, res, next) => {
   try {
@@ -12,13 +13,7 @@ const authMiddleware = async (req, res, next) => {
       });
     }
 
-    const JWT_SECRET = process.env.JWT_SECRET;
-    if (!JWT_SECRET) {
-      return res.status(500).json({
-        success: false,
-        message: 'server misconfiguration'
-      });
-    }
+
 
     const token = authHeader.split(' ')[1];
     const decoded = jwt.verify(token, JWT_SECRET);

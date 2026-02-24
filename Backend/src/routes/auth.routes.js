@@ -7,8 +7,8 @@ router.post('/login', authController.login);
 router.post('/register', authController.register);
 router.post('/logout', authMiddleware, authController.logout);
 
-router.get('/me', authMiddleware, authController.getMe);
-router.put('/me', authMiddleware, authController.updateMe);
+router.get('/', authMiddleware, authController.getMe);
+router.put('/', authMiddleware, authController.updateMe);
 
 router.put('/update/:id', authMiddleware, authorize(['admin']), authController.update);
 

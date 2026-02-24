@@ -73,7 +73,6 @@ class AuthController {
     });
   }
 
-  // تعديل بيانات المستخدم الحالي
   async updateMe(req, res) {
     try {
       const user = await authService.update(req.user._id, req.body);
@@ -90,7 +89,6 @@ class AuthController {
     }
   }
 
-  // تعديل مستخدم بواسطة الأدمن
   async update(req, res) {
     try {
       const user = await authService.update(req.params.id, req.body);
