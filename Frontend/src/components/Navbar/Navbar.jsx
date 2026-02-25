@@ -8,12 +8,27 @@ import menueIcon from '../../assets/menu-icon.svg'
 import closeIcon from '../../assets/close-icon.svg'
 import profileIcon from '../../assets/profile-icon.svg'
 import SideMenue from '../SideMenue/SideMenue'
+import logoutIcon from '../../assets/logout-icon.svg'
+import ConfirmPopup from '../ConfirmPopup/ConfirmPopup'
 
 const Navbar = ({ removed = false }) => {
     const [open, setOpen] = useState(true);
     const [side, setSide] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        setShowConfirm(false);
+    };
+
     return (
         <>
+            {showConfirm && (
+                <ConfirmPopup
+                    onConfirm={handleLogout}
+                    onCancel={() => setShowConfirm(false)}
+                />
+            )}
             <SideMenue display={side} />
             <div className={style.container}>
                 <img src={logo} alt="logo" />
@@ -30,12 +45,17 @@ const Navbar = ({ removed = false }) => {
                 {!removed && <div className={style.icons}>
                     <img src={favoriteIcon} alt="favorite-icon" />
                     <img src={cartIcon} alt="cart-icon" />
-                    <img src={profileIcon} alt="profile-icon" />
+                    {!localStorage.getItem("token") &&
+                        <img src={profileIcon} alt="profile-icon" />
+                    }
+                    {localStorage.getItem("token") &&
+                        <img onClick={() => setShowConfirm(true)} src={logoutIcon} alt="logout-icon" />
+                    }
                 </div>}
                 {!removed && <div className={style.menu}>
-                    {open 
-                    ? <img onClick={() => {setOpen(!open); setSide(!side)}} src={menueIcon} />
-                    : <img onClick={() => {setOpen(!open); setSide(!side)}} src={closeIcon} />
+                    {open
+                        ? <img onClick={() => { setOpen(!open); setSide(!side) }} src={menueIcon} />
+                        : <img onClick={() => { setOpen(!open); setSide(!side) }} src={closeIcon} />
                     }
                 </div>}
             </div>

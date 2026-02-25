@@ -2,13 +2,16 @@ import style from './Login.module.css'
 import React, { useState } from 'react'
 import lockIcon from '../../assets/lock-icon.svg'
 import phoneIcon from '../../assets/phone-icon.svg'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import WarningPopup from '../../components/Warning-Popup/WarningPopup';
 import logo from '../../assets/logo.jpg'
+import api from "../../api/axios";
 
 const Login = () => {
-    const [user, setUser] = useState({ phone: "", pass: "" });
+    const [user, setUser] = useState({ phone: "", password: "" });
     const [warning, setWarning] = useState(false);
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const handlePhoneChange = (e) => {
         const val = e.target.value;
@@ -18,21 +21,35 @@ const Login = () => {
     };
 
     const handlePassChange = (e) => {
-        setUser(u => ({ ...u, pass: e.target.value }));
+        setUser(u => ({ ...u, password: e.target.value }));
     };
 
     function inputValidation() {
-        if (!user.phone.trim() || !user.pass.trim())
+        if (!user.phone.trim() || !user.password.trim())
             return false;
         if (user.phone.length !== 9)
             return false;
         return true;
     }
 
-    const handleSubmitClick = () => {
+    const handleSubmitClick = async () => {
         if (!inputValidation()) {
             setWarning(true);
             return;
+        }
+        try {
+            setLoading(true);
+            const res = await api.post("/auth/login", { ...user, phone: `00962${user.phone}` }
+            );
+
+            localStorage.setItem("token", res.data.data.token)
+            navigate('/')
+        } catch (err) {
+            console.error(err.response?.data || err.message);
+            setWarning(true)
+        }
+        finally {
+            setLoading(false);
         }
     };
 
@@ -73,7 +90,7 @@ const Login = () => {
                             <input
                                 dir="ltr"
                                 id='input-password'
-                                value={user.pass}
+                                value={user.password}
                                 onChange={handlePassChange}
                                 type="password"
                                 placeholder='password'

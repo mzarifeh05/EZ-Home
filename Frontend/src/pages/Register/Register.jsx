@@ -3,14 +3,17 @@ import style from './Register.module.css'
 import lockIcon from '../../assets/lock-icon.svg'
 import phoneIcon from '../../assets/phone-icon.svg'
 import personIcon from '../../assets/person-icon.svg'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import WarningPopup from '../../components/Warning-Popup/WarningPopup';
 import logo from '../../assets/logo.jpg'
+import api from "../../api/axios";
 
 const Register = () => {
-    const [user, setUser] = useState({ name: "", phone: "", pass: "" });
+    const [user, setUser] = useState({ fullName: "", phone: "", password: "" });
     const [conPass, setConPass] = useState("");
     const [warning, setWarning] = useState(false);
+    const navigate = useNavigate()
+    const [loading, setLoading] = useState(false);
 
     const handlePhoneChange = (e) => {
         const val = e.target.value;
@@ -20,11 +23,11 @@ const Register = () => {
     };
 
     const handlePassChange = (e) => {
-        setUser(u => ({ ...u, pass: e.target.value }));
+        setUser(u => ({ ...u, password: e.target.value }));
     };
 
     const handleNameChange = (e) => {
-        setUser(u => ({ ...u, name: e.target.value }));
+        setUser(u => ({ ...u, fullName: e.target.value }));
     };
 
     const handleConPassChange = (e) => {
@@ -32,30 +35,43 @@ const Register = () => {
     };
 
     function inputValidation() {
-        if (!user.phone.trim() || !user.pass.trim() || !user.name.trim() || !conPass.trim())
+        if (!user.phone.trim() || !user.password.trim() || !user.fullName.trim() || !conPass.trim())
             return false;
         if (user.phone.length !== 9)
             return false;
-        if (user.pass !== conPass)
+        if (user.password !== conPass)
             return false;
         return true;
     }
 
-    const handleSubmitClick = () => {
+    const handleSubmitClick = async () => {
         if (!inputValidation()) {
             setWarning(true);
             return;
+        }
+        try {
+            setLoading(true);
+            const res = await api.post("/auth/register", { ...user, phone: `00962${user.phone}` }
+            );
+
+            localStorage.setItem("token", res.data.data.token);
+            navigate("/");
+        } catch (err) {
+            console.error(err.response?.data || err.message);
+        }
+        finally {
+            setLoading(false);
         }
     };
 
     return (
         <>
             <div className={style.container}>
-            <div className={style.logo}>
-                <Link to="/">
-                    <img src={logo} alt="" />
-                </Link>
-            </div>
+                <div className={style.logo}>
+                    <Link to="/">
+                        <img src={logo} alt="" />
+                    </Link>
+                </div>
                 <div className={style.box}>
                     <h1>إنشاء حساب</h1>
 
@@ -65,7 +81,7 @@ const Register = () => {
                         <div className={style.inputBox}>
                             <img src={personIcon} alt="person" className={style.iconOnly} />
                             <input
-                                value={user.name}
+                                value={user.fullName}
                                 onChange={handleNameChange}
                                 type="text"
                                 placeholder='full name'
@@ -100,7 +116,7 @@ const Register = () => {
                             <img src={lockIcon} alt="lock" className={style.iconOnly} />
                             <input
                                 dir="ltr"
-                                value={user.pass}
+                                value={user.password}
                                 onChange={handlePassChange}
                                 type="password"
                                 placeholder='password'
