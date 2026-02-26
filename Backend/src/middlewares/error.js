@@ -9,7 +9,7 @@ const resolveStatusCode = (err) => {
 };
 
 const errorHandler = (err, req, res, next) => {
-  console.error('Error:', err);
+  console.error('خطأ:', err);
   const statusCode = resolveStatusCode(err);
 
   if (err.name === 'JsonWebTokenError') {

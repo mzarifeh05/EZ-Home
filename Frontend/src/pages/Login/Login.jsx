@@ -41,6 +41,7 @@ const Login = () => {
             setLoading(true);
             const res = await api.post("/auth/login", { ...user, phone: `00962${user.phone}` }
             );
+            
 
             localStorage.setItem("token", res.data.data.token)
             navigate('/')

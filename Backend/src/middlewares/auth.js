@@ -1,6 +1,5 @@
-const jwt = require('jsonwebtoken');
+const { verifyToken } = require('../utils/jwt');
 const User = require('../models/user.model');
-const { JWT_SECRET } = require('../config/env');
 
 const authMiddleware = async (req, res, next) => {
   try {
@@ -9,21 +8,19 @@ const authMiddleware = async (req, res, next) => {
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({
         success: false,
-        message: 'unauthorized'
+        message: 'غير مصرح'
       });
     }
 
-
-
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = verifyToken(token);
     const userId = decoded.userId || decoded.UserId;
 
     const user = await User.findById(userId).select('-password').lean();
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: 'unauthorized'
+        message: 'غير مصرح'
       });
     }
 
@@ -33,24 +30,26 @@ const authMiddleware = async (req, res, next) => {
   } catch (error) {
     return res.status(401).json({
       success: false,
-      message: 'unauthorized'
+      message: 'غير مصرح'
     });
   }
 };
 
 const authorize = (roles) => {
+  const normalizedRoles = Array.isArray(roles) ? roles : [roles];
+
   return (req, res, next) => {
     if (!req.user) {
       return res.status(401).json({
         success: false,
-        message: 'unauthorized'
+        message: 'غير مصرح'
       });
     }
 
-    if (!Array.isArray(roles) || !roles.includes(req.user.role)) {
+    if (!normalizedRoles.includes(req.user.role)) {
       return res.status(403).json({
         success: false,
-        message: 'forbidden'
+        message: 'غير مسموح'
       });
     }
 

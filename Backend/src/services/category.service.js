@@ -9,10 +9,6 @@ function createError(status, message) {
 
 class CategoryService {
     async createCategory(data) {
-        if (!data.name || !data.name.trim()) {
-            throw createError(400, 'اسم التصنيف مطلوب');
-        }
-
         const existing = await Category.findOne({ name: data.name.trim() });
         if (existing) throw createError(409, 'هذا التصنيف موجود مسبقاً');
 
@@ -34,7 +30,7 @@ class CategoryService {
         const category = await Category.findById(id);
         if (!category) throw createError(404, 'التصنيف غير موجود');
 
-        if (data.name) {
+        if (data.name !== undefined) {
             const duplicate = await Category.findOne({ name: data.name.trim(), _id: { $ne: id } });
             if (duplicate) throw createError(409, 'هذا الاسم مستخدم بالفعل');
             data.name = data.name.trim();
