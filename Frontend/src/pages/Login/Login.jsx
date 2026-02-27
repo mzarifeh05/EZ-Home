@@ -39,17 +39,14 @@ const Login = () => {
         }
         try {
             setLoading(true);
-            const res = await api.post("/auth/login", { ...user, phone: `00962${user.phone}` }
-            );
-            
+            const res = await api.post("/auth/login", { ...user, phone: `00962${user.phone}` });
 
             localStorage.setItem("token", res.data.data.token)
             navigate('/')
         } catch (err) {
             console.error(err.response?.data || err.message);
             setWarning(true)
-        }
-        finally {
+        } finally {
             setLoading(false);
         }
     };
@@ -80,6 +77,7 @@ const Login = () => {
                                 type="text"
                                 inputMode="numeric"
                                 placeholder='7XXXXXXXX'
+                                disabled={loading}
                             />
                         </div>
                     </div>
@@ -95,12 +93,24 @@ const Login = () => {
                                 onChange={handlePassChange}
                                 type="password"
                                 placeholder='password'
+                                disabled={loading}
                             />
                         </div>
                     </div>
 
-                    <button onClick={handleSubmitClick} className={style.button}>
-                        تسجيل الدخول
+                    <button
+                        onClick={handleSubmitClick}
+                        className={`${style.button} ${loading ? style.buttonLoading : ''}`}
+                        disabled={loading}
+                    >
+                        {loading ? (
+                            <span className={style.spinnerWrapper}>
+                                <span className={style.spinner}></span>
+                                <span>جارٍ التحميل...</span>
+                            </span>
+                        ) : (
+                            'تسجيل الدخول'
+                        )}
                     </button>
 
                     <p className={style.p}>
@@ -110,6 +120,16 @@ const Login = () => {
                         </Link>
                     </p>
                 </div>
+
+                {loading && (
+                    <div className={style.overlay}>
+                        <div className={style.overlaySpinner}>
+                            <div className={style.ring}></div>
+                            <div className={style.ring}></div>
+                            <div className={style.ring}></div>
+                        </div>
+                    </div>
+                )}
 
                 {warning && <WarningPopup close={() => setWarning(false)} />}
             </div>

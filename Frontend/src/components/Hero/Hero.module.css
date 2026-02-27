@@ -27,35 +27,13 @@
     color: rgba(255, 255, 255, 0.9);
 }
 
-/* .container img:hover {
+.container img:hover {
     filter: drop-shadow(0 0 2em #0094bcaa);
-} */
+}
 
-/* @keyframes logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-} */
-
-/* @keyframes logo-spin {
-    from {
-        transform: rotateY(0deg);
-    }
-
-    to {
-        transform: rotateY(360deg);
-    }
-} */
-
-/* @media (prefers-reduced-motion: no-preference) {
-    .container img {
-        animation: logo-spin infinite 20s linear;
-    }
-} */
+.container .content span {
+    color: #EB8E1E;
+}
 
 .container .content button {
     color: #060F2C;

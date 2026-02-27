@@ -3,7 +3,6 @@
     padding: 0;
     box-sizing: border-box;
 }
-
 .container {
     background-color: #060F2C;
     display: flex;
@@ -12,7 +11,6 @@
     min-height: 100vh;
     justify-content: center;
 }
-
 .box {
     background-color: #060F2C;
     width: 400px;
@@ -25,13 +23,11 @@
     border-radius: 10px;
     padding: 20px 0;
 }
-
 .field {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
-
 .inputBox {
     background-color: white;
     display: flex;
@@ -42,13 +38,12 @@
     border-radius: 10px;
     border: solid 2px;
     direction: ltr;
+    transition: opacity 0.2s;
 }
-
 .inputBox:focus-within {
     border-color: #EB8E1E;
     box-shadow: 0 0 0 1px #EB8E1E;
 }
-
 .inputBox input {
     flex: 1;
     outline: none;
@@ -58,13 +53,16 @@
     direction: ltr;
     text-align: left;
 }
-
+.inputBox input:disabled {
+    background-color: transparent;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
 .inputBox input::placeholder {
     color: gray;
     font-size: 1rem;
     font-weight: 700;
 }
-
 .prefix {
     display: flex;
     align-items: center;
@@ -72,17 +70,14 @@
     border-right: 1px solid #ddd;
     padding-right: 10px;
 }
-
 .prefix span {
     color: black;
     opacity: 0.6;
     font-weight: bold;
 }
-
 .iconOnly {
     width: 20px;
 }
-
 .button {
     background-color: #EB8E1E;
     width: 300px;
@@ -94,15 +89,98 @@
     padding: 5px;
     cursor: pointer;
     margin: 10px 0;
+    transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+    position: relative;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-
-.button:hover {
+.button:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(235, 142, 30, 0.4);
 }
-
-.button:active {
+.button:active:not(:disabled) {
     color: white;
+}
+.button:disabled {
+    cursor: not-allowed;
+    opacity: 0.85;
+}
+.buttonLoading {
+    background-color: #c97718;
+}
+.spinnerWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 1.1rem;
+}
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(6, 15, 44, 0.3);
+    border-top-color: #060F2C;
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+    flex-shrink: 0;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Full-screen overlay loader */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(6, 15, 44, 0.75);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+.overlaySpinner {
+    position: relative;
+    width: 70px;
+    height: 70px;
+}
+.ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    animation: ringPulse 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+.ring:nth-child(1) {
+    border-top-color: #EB8E1E;
+    animation-delay: -0.45s;
+}
+.ring:nth-child(2) {
+    border-top-color: rgba(235, 142, 30, 0.6);
+    width: 50px;
+    height: 50px;
+    inset: 10px;
+    animation-delay: -0.3s;
+    animation-duration: 0.9s;
+}
+.ring:nth-child(3) {
+    border-top-color: rgba(235, 142, 30, 0.3);
+    width: 30px;
+    height: 30px;
+    inset: 20px;
+    animation-delay: -0.15s;
+    animation-duration: 0.6s;
+}
+@keyframes ringPulse {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .p span {
@@ -110,22 +188,18 @@
     font-weight: bolder;
     cursor: pointer;
 }
-
 .p span:hover {
     text-decoration: underline;
 }
-
 .link {
     color: white;
     text-decoration: none;
 }
-
 @media (max-width: 450px) {
     .box {
         width: 325px;
     }
 }
-
 .logo img {
     width: 100px;
 }

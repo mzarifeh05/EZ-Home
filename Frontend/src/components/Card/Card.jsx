@@ -5,7 +5,7 @@ import unfilledHeart from '../../assets/unfilled-heart-icon.svg'
 import testPhoto from '../../assets/test-photos/coffee-machine.png'
 import { Link } from 'react-router-dom'
 
-const Card = () => {
+const Card = ({img, title, price, description}) => {
     const [favorite, setFavorite] = useState(false);
     return (
         <div className={style.container}>
@@ -18,12 +18,12 @@ const Card = () => {
                             <img onClick={() => setFavorite(!favorite)} src={unfilledHeart} alt="favorite-icon" />
                     }
                 </p>
-                <img src={testPhoto} alt="" />
+                <img src={img} alt="" />
             </div>
             <div className={style.lower}>
-                <h2>ماكينة قهوة</h2>
-                <h3>30 دينار</h3>
-                <p>ماكينة قهوة عملية بتصميم أنيق، تمنحك قهوة غنية بالنكهة خلال ثوانٍ مع سهولة في الاستخدام والتنظيف.</p>
+                <h2>{title}</h2>
+                <h3>{price} دينار </h3>
+                <p>{description}</p>
                 <div>
                     <Link className={style.a} to=''>المزيد</Link>
                     <button>أضف إلى السلة</button>
