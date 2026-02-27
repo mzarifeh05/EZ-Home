@@ -22,6 +22,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/wishlist", require("./routes/wishlist.routes.js"));
 
 app.get("/", (req, res) => {
   res.json({ message: "API Running..." });
