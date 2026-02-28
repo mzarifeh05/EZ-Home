@@ -6,6 +6,8 @@ const authRoutes = require('./routes/auth.routes.js');
 const categoryRoutes = require('./routes/category.routes.js');
 const productRoutes = require('./routes/product.routes.js');
 const cartRoutes = require('./routes/cart.routes.js');
+const wishlistRoutes = require('./routes/wishlist.routes.js');
+const orderRoutes = require('./routes/order.routes.js');
 const errorHandler = require('./middlewares/error.js');
 const notFound = require('./middlewares/notFound.js');
 const app = express();
@@ -22,7 +24,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/cart", cartRoutes);
-app.use("/api/wishlist", require("./routes/wishlist.routes.js"));
+app.use("/api/order", orderRoutes);
+app.use("/api/wishlist", wishlistRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "API Running..." });
