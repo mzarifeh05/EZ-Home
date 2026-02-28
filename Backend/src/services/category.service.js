@@ -1,4 +1,5 @@
 const Category = require('../models/category.model.js');
+const Product = require('../models/product.model.js');
 
 function createError(status, message) {
     const err = new Error(message);
@@ -43,6 +44,12 @@ class CategoryService {
     async deleteCategory(id) {
         const category = await Category.findById(id);
         if (!category) throw createError(404, 'التصنيف غير موجود');
+
+        const productsCount = await Product.countDocuments({ category: id });
+        if (productsCount > 0) {
+            throw createError(409, 'لا يمكن حذف التصنيف لأنه مرتبط بمنتجات');
+        }
+
         await Category.findByIdAndDelete(id);
         return { deleted: true };
     }

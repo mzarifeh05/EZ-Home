@@ -12,6 +12,5 @@ router.get('/:id', validateCategoryId, categoryController.getCategoryById);
 router.post('/', authMiddleware, authorize(['admin']), validateCreateCategory, categoryController.createCategory);
 router.put('/:id', authMiddleware, authorize(['admin']), validateCategoryId, validateUpdateCategory, categoryController.updateCategory);
 router.delete('/:id', authMiddleware, authorize(['admin']), validateCategoryId, categoryController.deleteCategory);
-router.patch('/:id/toggle', authMiddleware, authorize(['admin']), validateCategoryId, categoryController.toggleActive);
 
 module.exports = router;
