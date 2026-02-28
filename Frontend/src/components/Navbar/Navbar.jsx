@@ -24,6 +24,11 @@ const Navbar = ({ removed = false }) => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
 
+            // Optional: Prevent jitter on tiny scrolls
+            if (Math.abs(currentScrollY - lastScrollY.current) < 5) {
+                return;
+            }
+
             if (currentScrollY < lastScrollY.current || currentScrollY < 10) {
                 setVisible(true);
             } else {
@@ -38,8 +43,8 @@ const Navbar = ({ removed = false }) => {
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
-        setShowConfirm(false);
+        localStorage.removeItem("token");   // remove token
+        setShowConfirm(false);              // close popup
     };
 
     return (

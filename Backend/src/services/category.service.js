@@ -18,7 +18,7 @@ class CategoryService {
     }
 
     async getAllCategories() {
-        return Category.find({ isActive: true }).sort({ createdAt: -1 });
+        return Category.find({}).sort({ createdAt: -1 });
     }
 
     async getCategoryById(id) {

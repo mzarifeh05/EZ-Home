@@ -5,7 +5,7 @@ import unfilledHeart from '../../assets/unfilled-heart-icon.svg'
 import testPhoto from '../../assets/test-photos/coffee-machine.png'
 import { Link } from 'react-router-dom'
 
-const Card = ({img, title, price, description}) => {
+const Card = ({ img, title, price, description }) => {
     const [favorite, setFavorite] = useState(false);
     return (
         <div className={style.container}>
@@ -18,7 +18,12 @@ const Card = ({img, title, price, description}) => {
                             <img onClick={() => setFavorite(!favorite)} src={unfilledHeart} alt="favorite-icon" />
                     }
                 </p>
-                <img src={img} alt="" />
+                {
+                    img ? 
+                    <img src={img} alt="" />
+                    : 
+                    <div style={{width: "90%", height: "200px", marginBottom: "5px", color: "black", display: "flex", justifyContent: "center", alignItems: "center"}}>no image preview</div>
+                }
             </div>
             <div className={style.lower}>
                 <h2>{title}</h2>
