@@ -188,7 +188,7 @@ const Product = () => {
                             }
                             <p className={style.description}>{p.description}</p>
                             <div className={style.cardMeta}>
-                                <span className={style.price}>{p.price} ر.س</span>
+                                <span className={style.price}>{p.price} دينار</span>
                                 <span className={style.stock}>المخزون: {p.stock ?? 1}</span>
                             </div>
                         </div>
