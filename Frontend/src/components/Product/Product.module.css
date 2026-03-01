@@ -37,40 +37,48 @@
 }
 
 /* ── Cards Grid ── */
+/* ── Cards Grid ── */
 .cards {
-    display: flex;
-    justify-content: start;
+    display: grid;
+    /* This creates a responsive grid. Cards will be at least 240px wide, but will stretch (1fr) to fill any extra space! */
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 20px;
-    flex-wrap: wrap;
     padding: 20px 10px;
 }
 
 .card {
-    width: 220px;
+    width: 100%; /* Changed from fixed 220px to 100% of the grid cell */
     background-color: white;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(6, 15, 44, 0.08);
     display: flex;
     flex-direction: column;
-    transition: box-shadow 0.2s;
+    /* Added a smooth lift effect on hover */
+    transition: box-shadow 0.2s ease, transform 0.2s ease; 
 }
 
 .card:hover {
-    box-shadow: 0 4px 16px rgba(6, 15, 44, 0.15);
+    box-shadow: 0 6px 20px rgba(6, 15, 44, 0.12);
+    transform: translateY(-3px); /* Lifts the card slightly */
 }
 
 .cardImage {
     width: 100%;
-    height: 150px;
-    background-color: #f3f4f6;
-    overflow: hidden;
+    height: 180px; /* Slightly taller for a nice medium size */
+    background-color: white; /* Changed to white so images blend better */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px; /* Adds breathing room around the full image */
+    box-sizing: border-box;
+    border-bottom: 1px solid #f3f4f6; /* Subtle separator from the content */
 }
 
 .cardImage img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* This prevents the image from being cut! */
 }
 
 .noImage {
@@ -82,6 +90,8 @@
     color: #9ca3af;
     font-size: 0.85rem;
 }
+
+/* (The rest of your cardBody, description, etc. stays exactly the same!) */
 
 .cardBody {
     padding: 10px 12px;

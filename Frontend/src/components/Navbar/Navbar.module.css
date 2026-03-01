@@ -144,3 +144,12 @@
     /* Change this value to match the exact height of your navbar */
     height: 90px; 
 }
+
+.adminButton:hover {
+    cursor: pointer;
+    transform: scale(1.25);
+}
+
+.adminButton:active {
+    transform: scale(0.9);
+}

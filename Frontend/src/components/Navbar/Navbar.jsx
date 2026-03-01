@@ -11,6 +11,8 @@ import SideMenue from '../SideMenue/SideMenue'
 import logoutIcon from '../../assets/logout-icon.svg'
 import ConfirmPopup from '../ConfirmPopup/ConfirmPopup'
 import { useNavigate } from 'react-router-dom';
+import { MdAdminPanelSettings } from "react-icons/md";
+
 
 const Navbar = ({ removed = false }) => {
     const [open, setOpen] = useState(true);
@@ -43,8 +45,10 @@ const Navbar = ({ removed = false }) => {
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem("token");   // remove token
-        setShowConfirm(false);              // close popup
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        navigate("/")
+        setShowConfirm(false);
     };
 
     return (
@@ -71,8 +75,17 @@ const Navbar = ({ removed = false }) => {
                         </label>
                     </div>}
                     {!removed && <div className={style.icons}>
-                        <img onClick={() => navigate('/favorite')} src={favoriteIcon} alt="favorite-icon" />
-                        <img src={cartIcon} alt="cart-icon" />
+                        {localStorage.getItem("role") === "admin" && 
+                            <MdAdminPanelSettings className={style.adminButton} onClick={() => navigate("/admin")} size={45} color='#EB8E1E' />
+                        }
+                        {
+                            localStorage.getItem("role") !== "admin" && 
+                            <img onClick={() => navigate('/favorite')} src={favoriteIcon} alt="favorite-icon" />
+                        }
+                        {
+                            localStorage.getItem("role") !== "admin" && 
+                            <img src={cartIcon} alt="cart-icon" />
+                        }
                         {!localStorage.getItem("token") &&
                             <img onClick={() => navigate("/login")} src={loginIcon} alt="profile-icon" />
                         }
@@ -86,6 +99,7 @@ const Navbar = ({ removed = false }) => {
                             : <img onClick={() => { setOpen(!open); setSide(!side) }} src={closeIcon} />
                         }
                     </div>}
+
                 </div>
             </div>
 

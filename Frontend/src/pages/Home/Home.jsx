@@ -6,7 +6,6 @@ import Card from '../../components/Card/Card';
 import Footer from '../../components/Footer/Footer';
 import api from "../../api/axios";
 import { useNavigate } from 'react-router-dom';
-import { MdAdminPanelSettings } from "react-icons/md";
 
 const Home = () => {
     const productsRef = useRef(null);
@@ -84,16 +83,6 @@ const Home = () => {
                 </div>
             </div>
             <Footer />
-
-            {isAdmin && (
-                <button
-                    className={style.adminBtn}
-                    onClick={() => navigate('/admin')}
-                    title="لوحة التحكم"
-                >
-                    <MdAdminPanelSettings size={28} />
-                </button>
-            )}
         </>
     )
 }

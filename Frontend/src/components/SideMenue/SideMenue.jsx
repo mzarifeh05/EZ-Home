@@ -7,6 +7,7 @@ import { useState } from 'react'
 import logoutIcon from '../../assets/logout-icon.svg'
 import loginIcon from '../../assets/login-icon.svg'
 import ConfirmPopup from '../ConfirmPopup/ConfirmPopup'
+import { MdAdminPanelSettings } from "react-icons/md";
 
 const SideMenue = ({ display }) => {
     const navigate = useNavigate();
@@ -14,6 +15,8 @@ const SideMenue = ({ display }) => {
 
     const handleLogout = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        navigate("/")
         setShowConfirm(false);
     };
     return (
@@ -25,14 +28,27 @@ const SideMenue = ({ display }) => {
                 />
             )}
             {display && <div className={style.container}>
-                <div className={style.section}>
-                    <img src={favoriteIcon} alt="favorite-icon" />
-                    <p onClick={() => navigate('/favorite')}>المفضلة</p>
-                </div>
-                <div className={style.section}>
-                    <img src={cartIcon} alt="cart-icon" />
-                    <p>سلتي</p>
-                </div>
+                {
+                    localStorage.getItem("role") === "admin" &&
+                    <div className={style.section}>
+                        <MdAdminPanelSettings className={style.adminButton} onClick={() => navigate("/admin")} size={45} color='#EB8E1E' />
+                        <p onClick={() => navigate('/favorite')}>لوحة التحكم</p>
+                    </div>
+                }
+                {
+                    localStorage.getItem("role") !== "admin" &&
+                    <div className={style.section}>
+                        <img src={favoriteIcon} alt="favorite-icon" />
+                        <p onClick={() => navigate('/favorite')}>المفضلة</p>
+                    </div>
+                }
+                {
+                    localStorage.getItem("role") !== "admin" &&
+                    <div className={style.section}>
+                        <img src={cartIcon} alt="cart-icon" />
+                        <p>سلتي</p>
+                    </div>
+                }
                 {
                     localStorage.getItem("token")
                         ?
