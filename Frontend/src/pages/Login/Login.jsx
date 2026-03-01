@@ -42,6 +42,9 @@ const Login = () => {
             const res = await api.post("/auth/login", { ...user, phone: `00962${user.phone}` });
 
             localStorage.setItem("token", res.data.data.token)
+            const payload = JSON.parse(atob(res.data.data.token.split('.')[1]));
+            localStorage.setItem("role", payload.role);
+            console.log(payload);
             navigate('/')
         } catch (err) {
             console.error(err.response?.data || err.message);

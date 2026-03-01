@@ -37,3 +37,35 @@
         width: 100%;
     }
 }
+
+/* ── Admin Floating Button ── */
+/* Add this to the bottom of your existing Home.module.css */
+
+.adminBtn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #060F2C;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(6, 15, 44, 0.35);
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    z-index: 999;
+}
+
+.adminBtn:hover {
+    background-color: #EB8E1E;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(235, 142, 30, 0.45);
+}
+
+.adminBtn:active {
+    transform: scale(0.97);
+}

@@ -5,9 +5,12 @@ import Hero from '../../components/Hero/Hero';
 import Card from '../../components/Card/Card';
 import Footer from '../../components/Footer/Footer';
 import api from "../../api/axios";
+import { useNavigate } from 'react-router-dom';
+import { MdAdminPanelSettings } from "react-icons/md";
 
 const Home = () => {
     const productsRef = useRef(null);
+    const navigate = useNavigate();
 
     const scrollToSection = (ref) => {
         ref.current.scrollIntoView({ behavior: 'smooth' });
@@ -16,6 +19,8 @@ const Home = () => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [category, setCategory] = useState("none");
+
+    const isAdmin = localStorage.getItem('role') === 'admin';
 
     useEffect(() => {
         const loadProducts = async () => {
@@ -79,6 +84,16 @@ const Home = () => {
                 </div>
             </div>
             <Footer />
+
+            {isAdmin && (
+                <button
+                    className={style.adminBtn}
+                    onClick={() => navigate('/admin')}
+                    title="لوحة التحكم"
+                >
+                    <MdAdminPanelSettings size={28} />
+                </button>
+            )}
         </>
     )
 }
