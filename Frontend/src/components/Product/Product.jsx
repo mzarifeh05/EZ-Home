@@ -22,6 +22,7 @@ const Product = () => {
     const [loading, setLoading] = useState(false);
     const [imageLoading, setImageLoading] = useState(false);
     const [error, setError] = useState('');
+    const [deleteError, setDeleteError] = useState('');
 
     useEffect(() => {
         loadProducts();
@@ -89,6 +90,7 @@ const Product = () => {
 
     const handleDeleteClick = (product) => {
         setSelectedProduct(product);
+        setDeleteError('');
         setShowDeleteModal(true);
     };
 
@@ -133,12 +135,20 @@ const Product = () => {
 
     const handleDeleteConfirm = async () => {
         setLoading(true);
+        setDeleteError('');
         try {
-            await api.delete(`/product/${selectedProduct._id}`);
+            const token = localStorage.getItem('token');
+            await api.delete(`/product/${selectedProduct._id}`, {
+                headers: token ? { Authorization: `Bearer ${token}` } : {},
+            });
             await loadProducts();
             setShowDeleteModal(false);
-        } catch (err) { console.log(err); }
-        finally { setLoading(false); }
+        } catch (err) {
+            console.log(err);
+            setDeleteError(err.response?.data?.message || 'غير مصرح بحذف هذا المنتج');
+        } finally {
+            setLoading(false);
+        }
     };
 
     const closeAll = () => {
@@ -146,6 +156,7 @@ const Product = () => {
         setShowEditModal(false);
         setShowDeleteModal(false);
         setError('');
+        setDeleteError('');
         setSelectedProduct(null);
     };
 
@@ -233,6 +244,33 @@ const Product = () => {
                         }}
                     />
                 </Modal>
+            )}
+
+            {showDeleteModal && (
+                <div className={style.overlay} onClick={closeAll}>
+                    <div className={style.modal} onClick={e => e.stopPropagation()}>
+                        <div className={style.modalHeader}>
+                            <h2>تأكيد الحذف</h2>
+                            <button className={style.closeBtn} onClick={closeAll}>
+                                <IoClose size={20} />
+                            </button>
+                        </div>
+                        <div className={style.modalBody}>
+                            <p>هل أنت متأكد من حذف المنتج <strong>{selectedProduct?.name}</strong>؟</p>
+                            {deleteError && <p className={style.error}>{deleteError}</p>}
+                        </div>
+                        <div className={style.modalFooter}>
+                            <button className={style.cancelBtn} onClick={closeAll}>الغاء</button>
+                            <button
+                                className={style.deleteBtnModal}
+                                onClick={handleDeleteConfirm}
+                                disabled={loading}
+                            >
+                                {loading ? 'جاري الحذف...' : 'حذف'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );
