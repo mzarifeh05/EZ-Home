@@ -72,6 +72,7 @@ const Home = () => {
                         .filter(Element => category === Element.category.name || category === "none")
                         .map(Element => (
                             <Card
+                                id={Element._id}
                                 key={Element._id}
                                 title={Element.name}
                                 img={Element.image}

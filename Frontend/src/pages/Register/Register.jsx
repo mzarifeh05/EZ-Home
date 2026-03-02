@@ -12,6 +12,7 @@ const Register = () => {
     const [user, setUser] = useState({ fullName: "", phone: "", password: "" });
     const [conPass, setConPass] = useState("");
     const [warning, setWarning] = useState(false);
+    const [warningMessage, setWarningMessage] = useState("");
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
 
@@ -36,27 +37,30 @@ const Register = () => {
 
     function inputValidation() {
         if (!user.phone.trim() || !user.password.trim() || !user.fullName.trim() || !conPass.trim())
-            return false;
+            return "الرجاء تعبئة جميع الحقول";
         if (user.phone.length !== 9)
-            return false;
+            return "رقم الهاتف يجب أن يتكون من 9 أرقام";
         if (user.password !== conPass)
-            return false;
-        return true;
+            return "كلمتا المرور غير متطابقتين";
+        return null;
     }
 
     const handleSubmitClick = async () => {
-        if (!inputValidation()) {
+        const validationError = inputValidation();
+        if (validationError) {
+            setWarningMessage(validationError);
             setWarning(true);
             return;
         }
         try {
             setLoading(true);
             const res = await api.post("/auth/register", { ...user, phone: `00962${user.phone}` });
-
             localStorage.setItem("token", res.data.data.token);
-            navigate("/");
+            navigate("/login");
         } catch (err) {
-            console.error(err.response?.data || err.message);
+            const msg = err.response?.data?.message || "حدث خطأ، يرجى المحاولة مرة أخرى";
+            setWarningMessage(msg);
+            setWarning(true);
         } finally {
             setLoading(false);
         }
@@ -169,7 +173,7 @@ const Register = () => {
                     </div>
                 )}
 
-                {warning && <WarningPopup close={() => setWarning(false)} />}
+                {warning && <WarningPopup message={warningMessage} close={() => setWarning(false)} />}
             </div>
         </>
     )

@@ -4,6 +4,7 @@ import Register from './pages/Register/Register'
 import Home from './pages/Home/Home'
 import Favorite from './pages/Favorite/Favorite'
 import Admin from './pages/Admin/Admin'
+import DetailsCard from './components/DetailsCard/DetailsCard'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path='/Login' element={<Login />} />
           <Route path='/Favorite' element={<Favorite />} />
           <Route path='/Admin' element={<Admin />} />
+          <Route path="/DetailsCard/:id" element={<DetailsCard />} />
         </Routes>
       </BrowserRouter>
     </>

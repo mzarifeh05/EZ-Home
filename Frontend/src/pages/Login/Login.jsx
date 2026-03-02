@@ -10,6 +10,7 @@ import api from "../../api/axios";
 const Login = () => {
     const [user, setUser] = useState({ phone: "", password: "" });
     const [warning, setWarning] = useState(false);
+    const [warningMessage, setWarningMessage] = useState("");
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
@@ -26,29 +27,31 @@ const Login = () => {
 
     function inputValidation() {
         if (!user.phone.trim() || !user.password.trim())
-            return false;
+            return "الرجاء تعبئة جميع الحقول";
         if (user.phone.length !== 9)
-            return false;
-        return true;
+            return "رقم الهاتف يجب أن يتكون من 9 أرقام";
+        return null;
     }
 
     const handleSubmitClick = async () => {
-        if (!inputValidation()) {
+        const validationError = inputValidation();
+        if (validationError) {
+            setWarningMessage(validationError);
             setWarning(true);
             return;
         }
         try {
             setLoading(true);
             const res = await api.post("/auth/login", { ...user, phone: `00962${user.phone}` });
-
-            localStorage.setItem("token", res.data.data.token)
+            localStorage.setItem("token", res.data.data.token);
             const payload = JSON.parse(atob(res.data.data.token.split('.')[1]));
             localStorage.setItem("role", payload.role);
             console.log(payload);
             navigate('/')
         } catch (err) {
-            console.error(err.response?.data || err.message);
-            setWarning(true)
+            const msg = err.response?.data?.message || "حدث خطأ، يرجى المحاولة مرة أخرى";
+            setWarningMessage(msg);
+            setWarning(true);
         } finally {
             setLoading(false);
         }
@@ -134,7 +137,7 @@ const Login = () => {
                     </div>
                 )}
 
-                {warning && <WarningPopup close={() => setWarning(false)} />}
+                {warning && <WarningPopup message={warningMessage} close={() => setWarning(false)} />}
             </div>
         </>
     )
