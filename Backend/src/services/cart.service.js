@@ -8,6 +8,14 @@ function createError(status, message) {
     return err;
 }
 
+function normalizeProductId(productRef) {
+    if (!productRef) return '';
+    if (typeof productRef === 'object' && productRef._id) {
+        return String(productRef._id);
+    }
+    return String(productRef);
+}
+
 class CartService {
     async getCartByUserId(userId) {
         let cart = await Cart.findOne({ user: userId }).populate('items.product');
@@ -35,9 +43,28 @@ class CartService {
             cart = await Cart.create({ user: userId, items: [] });
         }
 
-        const existingItem = cart.items.find(
-            (item) => String(item.product) === String(product._id)
+        const productKey = normalizeProductId(product._id);
+        const matchingItems = cart.items.filter(
+            (item) => normalizeProductId(item.product) === productKey
         );
+
+        let existingItem = null;
+        if (matchingItems.length > 0) {
+            existingItem = matchingItems[0];
+
+            if (matchingItems.length > 1) {
+                const mergedQty = matchingItems.reduce(
+                    (sum, item) => sum + Number(item.qty || 0),
+                    0
+                );
+                existingItem.qty = mergedQty;
+                existingItem.price = product.price;
+
+                for (let i = 1; i < matchingItems.length; i += 1) {
+                    matchingItems[i].deleteOne();
+                }
+            }
+        }
 
         if (existingItem) {
             const nextQty = existingItem.qty + qty;

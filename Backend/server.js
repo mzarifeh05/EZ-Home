@@ -7,7 +7,7 @@ const {PORT} = require('./src/config/env.js');
 
 const startServer = async () => {
   try {
-    connectDB();
+    await connectDB();
     
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
