@@ -123,6 +123,7 @@
     font-weight: bolder;
     transition: 0.2s ease;
     color: #060F2C;
+    white-space: nowrap;
 }
 
 .actions button:hover {
