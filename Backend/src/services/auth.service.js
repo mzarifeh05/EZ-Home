@@ -1,5 +1,5 @@
-const { hashPassword, comparePassword } = require('../utils/hash');
-const { generateToken } = require('../utils/jwt');
+const { hashPassword, comparePassword } = require('../utils/hash.utils');
+const { generateToken } = require('../utils/jwt.utils');
 const User = require('../models/user.model');
 
 function createError(status, message) {

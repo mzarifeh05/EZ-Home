@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const env = require('../config/env');
+const env = require('../config/env.config');
 
 const generateToken = (payload, expiresIn = env.JWT_EXPIRES_IN) => {
     return jwt.sign(payload, env.JWT_SECRET, { expiresIn });

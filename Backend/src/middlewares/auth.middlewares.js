@@ -1,4 +1,4 @@
-const { verifyToken } = require('../utils/jwt');
+const { verifyToken } = require('../utils/jwt.utils');
 const User = require('../models/user.model');
 
 const authMiddleware = async (req, res, next) => {

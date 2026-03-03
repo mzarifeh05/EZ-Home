@@ -105,6 +105,13 @@ class CartService {
             throw createError(404, 'العنصر غير موجود في السلة');
         }
 
+        if (qty === 0) {
+            item.deleteOne();
+            await cart.save();
+            await cart.populate('items.product');
+            return cart;
+        }
+
         const product = await Product.findById(item.product).lean();
         if (!product) {
             throw createError(404, 'المنتج غير موجود');

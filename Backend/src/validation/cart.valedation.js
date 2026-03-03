@@ -44,8 +44,8 @@ const validateAddItem = (req, res, next) => {
       throw createError(400, 'معرّف المنتج غير صالح');
     }
 
-    if (qty === null || qty < 1 || qty > 100) {
-      throw createError(400, 'الكمية يجب أن تكون رقماً صحيحاً بين 1 و 100');
+    if (qty === null || qty < 0 || qty > 100) {
+      throw createError(400, 'الكمية يجب أن تكون رقماً صحيحاً بين 0 و 100');
     }
 
     req.body = { productId, qty };
@@ -62,8 +62,8 @@ const validateUpdateItemQty = (req, res, next) => {
     }
 
     const qty = parseInteger(req.body.qty);
-    if (qty === null || qty < 1 || qty > 100) {
-      throw createError(400, 'الكمية يجب أن تكون رقماً صحيحاً بين 1 و 100');
+    if (qty === null || qty < 0 || qty > 100) {
+      throw createError(400, 'الكمية يجب أن تكون رقماً صحيحاً بين 0 و 100');
     }
 
     req.body = { qty };

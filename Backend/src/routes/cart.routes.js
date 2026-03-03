@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const cartController = require('../controllers/cart.controller.js');
-const { authMiddleware } = require('../middlewares/auth.js');
+const { authMiddleware } = require('../middlewares/auth.middlewares.js');
 const {validateItemIdParam, validateAddItem, validateUpdateItemQty} = require('../validation/cart.valedation.js');
 
 router.use(authMiddleware);

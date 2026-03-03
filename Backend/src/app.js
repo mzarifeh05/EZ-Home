@@ -1,24 +1,55 @@
+const dotenv = require('dotenv');
+dotenv.config();
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
 const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
-const {CLIENT_URL} = require('./config/env.js');
+const { NODE_ENV } = require('./config/env.config.js');
+const { apiLimiter } = require('./middlewares/rateLimit.middlewares');
+const {CLIENT_URL} = require('./config/env.config.js');
 const authRoutes = require('./routes/auth.routes.js');
 const categoryRoutes = require('./routes/category.routes.js');
 const productRoutes = require('./routes/product.routes.js');
 const cartRoutes = require('./routes/cart.routes.js');
 const wishlistRoutes = require('./routes/wishlist.routes.js');
 const orderRoutes = require('./routes/order.routes.js');
-const errorHandler = require('./middlewares/error.js');
-const notFound = require('./middlewares/notFound.js');
+const errorHandler = require('./middlewares/error.middlewares.js');
+const notFound = require('./middlewares/notFound.middlewares.js');
 const app = express();
 
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, 
-  max: 100 
-});
+const isProduction = NODE_ENV;
+
+app.use(helmet({
+  contentSecurityPolicy: isProduction ? {
+    directives: {
+      defaultSrc:  ["'self'"],
+      scriptSrc:   ["'self'"],
+      styleSrc:    ["'self'", "'unsafe-inline'"],
+      imgSrc:      ["'self'", "data:", "https:"],
+      connectSrc:  ["'self'"],
+      objectSrc:   ["'none'"],
+      frameAncestors: ["'none'"],
+      upgradeInsecureRequests: []
+    }
+  } : false,
+
+  frameguard: { action: 'deny' },
+
+
+  hsts: isProduction ? {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true,
+  } : false,
+
+  noSniff: true,
+  hidePoweredBy: true,
+  dnsPrefetchControl: { allow: false },
+  crossOriginOpenerPolicy: { policy: "same-origin" },
+  crossOriginResourcePolicy: { policy: "same-origin" },
+  referrerPolicy: { policy: "strict-origin-when-cross-origin" },
+  originAgentCluster: true,
+}));
 
 app.use(cors({
     origin: CLIENT_URL,
@@ -26,10 +57,9 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
-app.use(helmet());
-app.use(limiter);
 app.use(hpp());
 app.use("/api/auth", authRoutes);
+app.use('/api/', apiLimiter);
 app.use("/api/category", categoryRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/cart", cartRoutes);
