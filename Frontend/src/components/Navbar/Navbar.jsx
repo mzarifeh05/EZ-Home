@@ -84,7 +84,7 @@ const Navbar = ({ removed = false }) => {
                         }
                         {
                             localStorage.getItem("role") !== "admin" && 
-                            <img src={cartIcon} alt="cart-icon" />
+                            <img onClick={() => navigate('/cart')} src={cartIcon} alt="cart-icon" />
                         }
                         {!localStorage.getItem("token") &&
                             <img onClick={() => navigate("/login")} src={loginIcon} alt="profile-icon" />

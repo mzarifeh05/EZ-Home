@@ -44,7 +44,7 @@ const SideMenue = ({ display }) => {
                 }
                 {
                     localStorage.getItem("role") !== "admin" &&
-                    <div className={style.section}>
+                    <div onClick={() => navigate('/cart')} className={style.section}>
                         <img src={cartIcon} alt="cart-icon" />
                         <p>سلتي</p>
                     </div>

@@ -22,6 +22,7 @@ const Home = () => {
     const isAdmin = localStorage.getItem('role') === 'admin';
 
     useEffect(() => {
+        console.log(localStorage.getItem("token"))
         const loadProducts = async () => {
             try {
                 const res = await api.get("/product");
