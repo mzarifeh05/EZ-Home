@@ -20,7 +20,7 @@ function App() {
           <Route path='/Favorite' element={<Favorite />} />
           <Route path='/Admin' element={<Admin />} />
           <Route path='/Cart' element={<Cart />} />
-          <Route path="/DetailsCard/:id" element={<DetailsCard />} />
+          <Route path="/Details" element={<DetailsCard />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -19,6 +19,7 @@ const Card = ({ img, title, price, description, id, wishlistIds, forceFavorite, 
     const [toast, setToast] = useState({ message: '', type: '' });
 
     useEffect(() => {
+        localStorage.setItem("id", id);
         if (forceFavorite) {
             setFavorite(true);
         } else if (wishlistIds?.includes(id)) {
@@ -102,7 +103,7 @@ const Card = ({ img, title, price, description, id, wishlistIds, forceFavorite, 
                     <h3>{price} دينار</h3>
                     <p>{description}</p>
                     <div className={style.actions}>
-                        <Link className={style.a} to={`/DetailsCard/${id}`}>المزيد</Link>
+                        <Link className={style.a} to={`/details`}>المزيد</Link>
                         <button onClick={addToCart}>أضف إلى السلة</button>
                     </div>
                 </div>
