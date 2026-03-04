@@ -5,10 +5,12 @@ import style from './Favorite.module.css'
 import { useState, useEffect } from 'react'
 import api from "../../api/axios";
 import Card from '../../components/Card/Card'
+import { useNavigate } from 'react-router-dom'
 
 const Favorite = () => {
     const [products, setProducts] = useState([]);
-    const [cover, setCover] = useState(false)
+    const [cover, setCover] = useState(false);
+    const navigate = useNavigate();
 
     const loadProducts = async () => {
         try {
@@ -23,6 +25,9 @@ const Favorite = () => {
         }
     };
     useEffect(() => {
+        if (!localStorage.getItem("token"))
+            navigate("/login")
+        window.scrollTo(0, 0);
         loadProducts();
     }, []);
 

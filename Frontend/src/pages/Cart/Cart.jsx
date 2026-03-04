@@ -3,6 +3,7 @@ import NavBar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
 import { useEffect, useState } from 'react'
 import api from '../../api/axios'
+import { useNavigate } from 'react-router-dom'
 
 /* ─── Inline Confirm Popup ───────────────────────────────────── */
 const RemoveConfirmPopup = ({ onConfirm, onCancel }) => (
@@ -82,6 +83,7 @@ const RemoveConfirmPopup = ({ onConfirm, onCancel }) => (
 const Cart = () => {
     const [items, setItems] = useState([]);
     const [pendingRemoveId, setPendingRemoveId] = useState(null);
+    const navigate = useNavigate();
 
     const getCart = async () => {
         try {
@@ -93,6 +95,9 @@ const Cart = () => {
     };
 
     useEffect(() => {
+        if (!localStorage.getItem("token"))
+            navigate("/login")
+        window.scrollTo(0, 0);
         getCart();
     }, []);
 

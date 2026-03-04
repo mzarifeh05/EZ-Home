@@ -70,7 +70,7 @@ const Card = ({ img, title, price, description, id, wishlistIds, forceFavorite, 
             await api.delete(`/wishlist/items/${id}`);
             if (onRemove) {
                 onRemove(id);
-            }   
+            }
             console.log("removed");
         }
         catch (error) {
@@ -83,13 +83,14 @@ const Card = ({ img, title, price, description, id, wishlistIds, forceFavorite, 
             <Toast message={toast.message} type={toast.type} />
             <div className={style.container}>
                 <div className={style.upper}>
-                    <p>
-                        {favorite ?
-                            <img onClick={() => { setFavorite(!favorite); removeFromFavorite() }} src={filledHeart} alt="favorite-icon" />
-                            :
-                            <img onClick={() => { setFavorite(!favorite); addToFavorite() }} src={unfilledHeart} alt="favorite-icon" />
-                        }
-                    </p>
+                    {localStorage.getItem("token") &&
+                        <p>
+                            {favorite ?
+                                <img onClick={() => { setFavorite(!favorite); removeFromFavorite() }} src={filledHeart} alt="favorite-icon" />
+                                :
+                                <img onClick={() => { setFavorite(!favorite); addToFavorite() }} src={unfilledHeart} alt="favorite-icon" />
+                            }
+                        </p>}
                     {img ?
                         <img src={img} alt="" />
                         :
