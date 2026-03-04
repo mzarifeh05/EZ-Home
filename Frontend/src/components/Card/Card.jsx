@@ -83,7 +83,7 @@ const Card = ({ img, title, price, description, id, wishlistIds, forceFavorite, 
             <Toast message={toast.message} type={toast.type} />
             <div className={style.container}>
                 <div className={style.upper}>
-                    {localStorage.getItem("token") &&
+                    {localStorage.getItem("role") === "user" &&
                         <p>
                             {favorite ?
                                 <img onClick={() => { setFavorite(!favorite); removeFromFavorite() }} src={filledHeart} alt="favorite-icon" />
