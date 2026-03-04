@@ -15,3 +15,13 @@ h1 {
     color: whitesmoke;
     text-align: center;
 }
+
+.empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bolder;
+    color: white;
+    min-height: 80vh;
+}

@@ -20,6 +20,7 @@ const DetailsCard = () => {
     };
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         const loadProduct = async () => {
             try {
                 const res = await api.get(`/product/${id}`);
@@ -128,7 +129,6 @@ const DetailsCard = () => {
                             </button>
                         </div>
 
-                        <p className={style.note}>* سيتم تطوير خاصية المفضلة قريباً</p>
                     </div>
                 </section>
 

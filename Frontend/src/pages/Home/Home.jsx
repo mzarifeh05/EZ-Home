@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 const Home = () => {
     const productsRef = useRef(null);
     const navigate = useNavigate();
+    const [wishlistIds, setWishlistIds] = useState([]);
 
     const scrollToSection = (ref) => {
         ref.current.scrollIntoView({ behavior: 'smooth' });
@@ -45,6 +46,20 @@ const Home = () => {
             }
         }
         loadCategories();
+        const fetchWishlist = async () => {
+            if (localStorage.getItem("role") !== "user") return;
+
+            try {
+                const res = await api.get("/wishlist");
+
+                const ids = res.data.data.products.map(p => p._id);
+                setWishlistIds(ids);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+        fetchWishlist();
     }, []);
 
     const handleCategoryChange = (event) => {
@@ -79,6 +94,7 @@ const Home = () => {
                                 img={Element.image}
                                 price={Element.price}
                                 description={Element.description}
+                                wishlistIds={wishlistIds}
                             />
                         ))
                     }

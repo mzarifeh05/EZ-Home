@@ -8,34 +8,49 @@ import Card from '../../components/Card/Card'
 
 const Favorite = () => {
     const [products, setProducts] = useState([]);
+    const [cover, setCover] = useState(false)
 
+    const loadProducts = async () => {
+        try {
+            const res = await api.get("/wishlist");
+            setProducts(res.data.data.products)
+            console.log(res.data.data.products)
+            if (res.data.data.products.length === 0)
+                setCover(true)
+        }
+        catch (error) {
+            console.log(error)
+        }
+    };
     useEffect(() => {
-        const loadProducts = async () => {
-            try {
-                const res = await api.get("/product");
-                setProducts(res.data.data)
-                console.log(res.data.data)
-            }
-            catch (error) {
-                console.log(error)
-            }
-        };
         loadProducts();
     }, []);
 
     return (
         <>
             <Navbar />
+            {!cover && <h1>قائمة المنتجات المفضلة</h1>}
+            {cover &&
+                <div className={style.empty}>
+                    <p>لا يوجد منتجات مفضلة!</p>
+                </div>
+            }
             <div className={style.container}>
-                <h1>قائمة المنتجات المفضلة</h1>
                 <div className={style.cards}>
                     {products.map(Element => (
                         <Card
                             key={Element._id}
+                            id={Element._id}
                             title={Element.name}
                             img={Element.image}
                             price={Element.price}
                             description={Element.description}
+                            forceFavorite={true}
+                            onRemove={(id) => {
+                                setProducts(prev =>
+                                    prev.filter(product => product._id !== id)
+                                );
+                            }}
                         />
                     ))
                     }

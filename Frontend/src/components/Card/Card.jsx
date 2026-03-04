@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import style from './Card.module.css'
 import filledHeart from '../../assets/filled-favorite-icon.svg'
 import unfilledHeart from '../../assets/unfilled-heart-icon.svg'
@@ -14,9 +14,19 @@ const Toast = ({ message, type }) => {
     );
 };
 
-const Card = ({ img, title, price, description, id }) => {
+const Card = ({ img, title, price, description, id, wishlistIds, forceFavorite, onRemove }) => {
     const [favorite, setFavorite] = useState(false);
     const [toast, setToast] = useState({ message: '', type: '' });
+
+    useEffect(() => {
+        if (forceFavorite) {
+            setFavorite(true);
+        } else if (wishlistIds?.includes(id)) {
+            setFavorite(true);
+        } else {
+            setFavorite(false);
+        }
+    }, [wishlistIds, id, forceFavorite]);
 
     const showToast = (message, type = 'success') => {
         setToast({ message, type });
@@ -43,6 +53,31 @@ const Card = ({ img, title, price, description, id }) => {
         }
     };
 
+    const addToFavorite = async () => {
+        try {
+            await api.post("/wishlist/items", {
+                productId: id
+            });
+            console.log("added");
+        }
+        catch (error) {
+            console.error(error)
+        }
+    }
+
+    const removeFromFavorite = async () => {
+        try {
+            await api.delete(`/wishlist/items/${id}`);
+            if (onRemove) {
+                onRemove(id);
+            }   
+            console.log("removed");
+        }
+        catch (error) {
+            console.error(error)
+        }
+    }
+
     return (
         <>
             <Toast message={toast.message} type={toast.type} />
@@ -50,9 +85,9 @@ const Card = ({ img, title, price, description, id }) => {
                 <div className={style.upper}>
                     <p>
                         {favorite ?
-                            <img onClick={() => setFavorite(!favorite)} src={filledHeart} alt="favorite-icon" />
+                            <img onClick={() => { setFavorite(!favorite); removeFromFavorite() }} src={filledHeart} alt="favorite-icon" />
                             :
-                            <img onClick={() => setFavorite(!favorite)} src={unfilledHeart} alt="favorite-icon" />
+                            <img onClick={() => { setFavorite(!favorite); addToFavorite() }} src={unfilledHeart} alt="favorite-icon" />
                         }
                     </p>
                     {img ?
