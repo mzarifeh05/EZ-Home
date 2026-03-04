@@ -10,7 +10,6 @@ const DetailsCard = () => {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [related, setRelated] = useState([]);
-    const [favorite, setFavorite] = useState(false);
     const [qty, setQty] = useState(1);
     const [toast, setToast] = useState({ message: "", type: "" });
 
@@ -119,13 +118,6 @@ const DetailsCard = () => {
                         <div className={style.actions}>
                             <button className={style.cartBtn} onClick={addToCart}>
                                 أضف إلى السلة
-                            </button>
-                            <button
-                                className={`${style.favoriteBtn} ${favorite ? style.favoriteBtnActive : ""}`}
-                                onClick={() => setFavorite(f => !f)}
-                                title="أضف إلى المفضلة"
-                            >
-                                {favorite ? "♥" : "♡"}
                             </button>
                         </div>
 
