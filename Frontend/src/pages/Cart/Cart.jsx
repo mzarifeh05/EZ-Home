@@ -14,11 +14,9 @@ import { FiMapPin } from 'react-icons/fi'
 
 const JORDAN_CITIES = [
     'عمّان', 'الزرقاء', 'إربد', 'العقبة', 'السلط',
-    'مادبا', 'الكرك', 'الطفيلة', 'معان', 'رام الله',
+    'مادبا', 'الكرك', 'الطفيلة', 'معان',
     'جرش', 'عجلون', 'المفرق', 'الرمثا', 'الأزرق',
-    'الحسن', 'الشوبك', 'وادي موسى', 'الجيزة', 'ماركا',
-    'الرصيفة', 'الوحدات', 'سحاب', 'الجويدة', 'ناعور',
-    'أبو نصير', 'تلاع العلي', 'شفا بدران', 'الهاشمية', 'الأغوار الشمالية',
+    'البحر الميت', 'الأغوار الشمالية',
 ];
 
 const STATUS_MAP = {
@@ -183,9 +181,6 @@ const MyOrdersPopup = ({ onClose }) => {
 
 /* ─── Edit Profile Popup ─────────────────────────────────────── */
 const EditProfilePopup = ({ onClose }) => {
-    const token = localStorage.getItem('token') || '';
-    let userId = '';
-    try { userId = JSON.parse(atob(token.split('.')[1]))._id; } catch (_) {}
 
     const [form, setForm] = useState({ fullName: '', phone: '' });
     const [loading, setLoading] = useState(true);
@@ -199,14 +194,20 @@ const EditProfilePopup = ({ onClose }) => {
             try {
                 const res = await api.get('/auth');
                 const user = res.data.data;
-                // Strip the 00962 prefix from phone for the input
+
                 const rawPhone = user.phone?.startsWith('00962')
                     ? user.phone.slice(5)
                     : user.phone || '';
-                setForm({ fullName: user.fullName || '', phone: rawPhone });
+
+                setForm({
+                    fullName: user.fullName || '',
+                    phone: rawPhone
+                });
             } catch (err) {
                 setError('تعذّر تحميل بياناتك');
-            } finally { setLoading(false); }
+            } finally {
+                setLoading(false);
+            }
         })();
     }, []);
 
@@ -217,17 +218,35 @@ const EditProfilePopup = ({ onClose }) => {
     };
 
     const handleSubmit = async () => {
-        if (!form.fullName.trim()) { setError('الرجاء إدخال الاسم الكامل'); return; }
-        if (form.phone && form.phone.length !== 9) { setError('رقم الهاتف يجب أن يتكون من 9 أرقام'); return; }
-        setSaving(true); setError('');
+        if (!form.fullName.trim()) {
+            setError('الرجاء إدخال الاسم الكامل');
+            return;
+        }
+
+        if (form.phone && form.phone.length !== 9) {
+            setError('رقم الهاتف يجب أن يتكون من 9 أرقام');
+            return;
+        }
+
+        setSaving(true);
+        setError('');
+
         try {
             const payload = { fullName: form.fullName };
-            if (form.phone) payload.phone = `00962${form.phone}`;
-            await api.put(`/auth/update/${userId}`, payload);
+
+            if (form.phone) {
+                payload.phone = `00962${form.phone}`;
+            }
+
+            // ✅ correct endpoint
+            await api.put('/auth', payload);
+
             setSuccess(true);
         } catch (err) {
             setError(err.response?.data?.message || 'حدث خطأ أثناء التحديث');
-        } finally { setSaving(false); }
+        } finally {
+            setSaving(false);
+        }
     };
 
     if (success) return (
@@ -248,10 +267,14 @@ const EditProfilePopup = ({ onClose }) => {
             <div className={style.popup}>
                 <div className={style.popupHeader}>
                     <div className={style.popupHeaderTitle}>
-                        <div className={style.popupIconWrap}><CiEdit size={22} color="#EB8E1E" /></div>
+                        <div className={style.popupIconWrap}>
+                            <CiEdit size={22} color="#EB8E1E" />
+                        </div>
                         <h2 className={style.popupTitle}>تعديل البيانات</h2>
                     </div>
-                    <button className={style.popupCloseBtn} onClick={onClose}><IoClose size={20} /></button>
+                    <button className={style.popupCloseBtn} onClick={onClose}>
+                        <IoClose size={20} />
+                    </button>
                 </div>
 
                 {loading ? (
@@ -270,7 +293,10 @@ const EditProfilePopup = ({ onClose }) => {
                                     type="text"
                                     placeholder="أدخل اسمك الكامل"
                                     value={form.fullName}
-                                    onChange={e => { setForm(f => ({ ...f, fullName: e.target.value })); setError(''); }}
+                                    onChange={e => {
+                                        setForm(f => ({ ...f, fullName: e.target.value }));
+                                        setError('');
+                                    }}
                                     disabled={saving}
                                 />
                             </div>
@@ -299,10 +325,21 @@ const EditProfilePopup = ({ onClose }) => {
                         {error && <p className={style.popupError}>{error}</p>}
 
                         <div className={style.popupActions}>
-                            <button className={style.popupConfirmBtn} onClick={handleSubmit} disabled={saving}>
+                            <button
+                                className={style.popupConfirmBtn}
+                                onClick={handleSubmit}
+                                disabled={saving}
+                            >
                                 {saving ? 'جاري الحفظ...' : 'حفظ التغييرات'}
                             </button>
-                            <button className={style.popupCancelBtn} onClick={onClose} disabled={saving}>إلغاء</button>
+
+                            <button
+                                className={style.popupCancelBtn}
+                                onClick={onClose}
+                                disabled={saving}
+                            >
+                                إلغاء
+                            </button>
                         </div>
                     </>
                 )}
