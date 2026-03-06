@@ -46,6 +46,7 @@ const Login = () => {
             localStorage.setItem("token", res.data.data.token);
             const payload = JSON.parse(atob(res.data.data.token.split('.')[1]));
             localStorage.setItem("role", payload.role);
+            localStorage.setItem("userId", payload._id || payload.id);
             console.log(payload);
             navigate('/')
         } catch (err) {

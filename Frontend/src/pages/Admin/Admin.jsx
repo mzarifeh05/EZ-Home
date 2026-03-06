@@ -4,12 +4,13 @@ import style from './Admin.module.css';
 import NavBar from '../../components/Navbar/Navbar';
 import Category from '../../components/Category/Category';
 import Product from '../../components/Product/Product';
+import Order from '../../components/Order/Order';
 import { MdAdminPanelSettings, MdNotificationsActive } from "react-icons/md";
 import { BiCategory } from "react-icons/bi";
 import { FiShoppingBag } from "react-icons/fi";
 
 const Admin = () => {
-    const [display, setDisplay] = useState("products");
+    const [display, setDisplay] = useState("orders");
     const [navVisible, setNavVisible] = useState(true); // Track navbar visibility
     const lastScrollY = useRef(0);
     const navigate = useNavigate();
@@ -56,6 +57,13 @@ const Admin = () => {
                     </h1>
 
                     <nav className={style.navLinks}>
+                        <button className={`${style.navButton} ${display === "orders" ? style.active : ""}`}
+                            onClick={() => setDisplay("orders")}
+                        >
+                            <MdNotificationsActive size={20} />
+                            <span className={style.linkText}>ادارة الطلبات</span>
+                        </button>
+
                         <button
                             className={`${style.navButton} ${display === "products" ? style.active : ""}`}
                             onClick={() => setDisplay("products")}
@@ -71,17 +79,13 @@ const Admin = () => {
                             <BiCategory size={20} />
                             <span className={style.linkText}>ادارة المجموعات</span>
                         </button>
-
-                        <button className={style.navButton}>
-                            <MdNotificationsActive size={20} />
-                            <span className={style.linkText}>ادارة الطلبات</span>
-                        </button>
                     </nav>
                 </aside>
 
                 <main className={style.mainContent}>
                     {display === "categories" && <Category />}
                     {display === "products" && <Product />}
+                    {display === "orders" && <Order />}
                 </main>
             </div>
         </div>
