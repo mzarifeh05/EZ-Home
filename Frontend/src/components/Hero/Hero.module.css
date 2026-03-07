@@ -63,7 +63,7 @@
         width: 100%;
         justify-content: center;
         gap: 25px;
-        min-height: auto;
+        min-height: 90vh;
     }
 
     .container img {

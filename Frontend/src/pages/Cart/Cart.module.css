@@ -1,660 +1,73 @@
-/* ─── Page Layout ────────────────────────────────────────────── */
-.page {
-    min-height: 100vh;
-    background-color: #060F2C;
-    padding: 30px 20px;
-    direction: rtl;
+/* ════════════════════════════════════════════════
+   SKELETON LOADING
+════════════════════════════════════════════════ */
+
+/* Shimmer keyframe */
+@keyframes shimmer {
+    0%   { background-position: -600px 0; }
+    100% { background-position:  600px 0; }
 }
 
-/* ─── Page Header ────────────────────────────────────────────── */
-.pageHeader {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin-bottom: 30px;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.pageTitle {
-    color: white;
-    font-size: 2rem;
-    font-weight: bold;
-}
-
-.headerActions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.headerBtn {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 9px 18px;
-    background-color: rgba(255, 255, 255, 0.08);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+/* Base shimmer mixin */
+.skeletonLine,
+.skeletonImage,
+.skeletonCard {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.04) 25%,
+        rgba(235, 142, 30, 0.10) 50%,
+        rgba(255, 255, 255, 0.04) 75%
+    );
+    background-size: 600px 100%;
+    animation: shimmer 1.6s infinite linear;
     border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    transition: background-color 0.2s, border-color 0.2s, transform 0.15s;
-    white-space: nowrap;
 }
 
-.headerBtn:hover {
-    background-color: rgba(235, 142, 30, 0.15);
-    border-color: #EB8E1E;
-    color: #EB8E1E;
-    transform: translateY(-1px);
+/* ── Skeleton heading (replaces <h1>) ── */
+.skeletonHeading {
+    height: 2rem;
+    width: 260px;
+    margin: 24px auto 8px;
+    border-radius: 6px;
+    display: block;
 }
 
-.headerBtn:active { transform: scale(0.97); }
-
-/* ─── Main Layout ────────────────────────────────────────────── */
-.layout {
-    display: grid;
-    grid-template-columns: 1fr 340px;
-    gap: 24px;
-    max-width: 1200px;
-    margin: 0 auto;
-    align-items: start;
-}
-
-@media (max-width: 900px) {
-    .layout { grid-template-columns: 1fr; }
-}
-
-/* ─── Cart Items List ────────────────────────────────────────── */
-.itemsList {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-/* ─── Cart Item Card ─────────────────────────────────────────── */
-.card {
-    background-color: #060F2C;
-    border: solid 1px rgba(255, 255, 255, 0.2);
+/* ── Skeleton Card ── */
+.skeletonCard {
+    border: solid 1px rgba(255, 255, 255, 0.08);
     border-radius: 10px;
     padding: 16px;
     display: flex;
     gap: 16px;
     align-items: center;
-    transition: 0.25s ease;
-    color: white;
-    box-sizing: border-box;
+    /* override the shimmer background on the card wrapper itself
+       so the inner elements do the shimmer instead */
+    background: rgba(255, 255, 255, 0.03);
+    animation: none;
 }
 
-.card:hover { border-color: #EB8E1E; }
-
-/* ─── Product Image ──────────────────────────────────────────── */
-.cardImage {
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 8px;
+/* ── Skeleton Image Block ── */
+.skeletonImage {
     width: 110px;
     height: 110px;
     flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.cardImage img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
     border-radius: 8px;
 }
 
-.noImage {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #060F2C;
-    font-size: 0.75rem;
-    text-align: center;
-}
-
-/* ─── Card Info ──────────────────────────────────────────────── */
-.cardInfo {
+/* ── Skeleton Info Lines ── */
+.skeletonInfo {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-}
-
-.cardName  { font-size: 1rem; font-weight: bold; line-height: 1.4; color: white; }
-.cardPrice { color: #EB8E1E; font-size: 0.9rem; font-weight: bold; }
-.cardTotal { color: rgba(255, 255, 255, 0.6); font-size: 0.85rem; }
-
-/* ─── Quantity Controls ──────────────────────────────────────── */
-.qtyControls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 6px;
-}
-
-.qtyBtn {
-    background-color: #EB8E1E;
-    color: #060F2C;
-    border: none;
-    border-radius: 5px;
-    width: 28px;
-    height: 28px;
-    font-size: 1.1rem;
-    font-weight: bolder;
-    cursor: pointer;
-    transition: 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.qtyBtn:hover  { transform: scale(1.1); opacity: 0.8; }
-.qtyBtn:active { transform: scale(0.9); opacity: 1; }
-
-.qtyValue {
-    color: white;
-    font-size: 1rem;
-    font-weight: bold;
-    min-width: 24px;
-    text-align: center;
-}
-
-/* ─── Remove Button ──────────────────────────────────────────── */
-.removeBtn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: transparent;
-    border: solid 1px rgba(255, 255, 255, 0.3);
-    color: rgba(255, 255, 255, 0.6);
-    padding: 5px 12px;
-    border-radius: 5px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: 0.2s ease;
-    margin-top: 4px;
-    align-self: flex-start;
-    font-family: inherit;
-}
-
-.removeBtn:hover  { border-color: #c0392b; color: #c0392b; transform: scale(1.05); }
-.removeBtn:active { transform: scale(0.9); }
-
-/* ─── Summary Panel ──────────────────────────────────────────── */
-.summary {
-    background-color: #060F2C;
-    border: solid 1px rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    padding: 24px;
-    color: white;
-    position: sticky;
-    top: 20px;
-    transition: 0.25s ease;
-    box-sizing: border-box;
-}
-
-.summary:hover { border-color: #EB8E1E; }
-
-.summaryTitle {
-    font-size: 1.3rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-    padding-bottom: 12px;
-    border-bottom: solid 1px rgba(255, 255, 255, 0.15);
-}
-
-.summaryRow {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.75);
-}
-
-.summaryRow span:last-child { color: white; font-weight: bold; }
-
-.summaryDivider {
-    border: none;
-    border-top: solid 1px rgba(255, 255, 255, 0.15);
-    margin: 16px 0;
-}
-
-.summaryTotal {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: white;
-    margin-bottom: 20px;
-}
-
-.summaryTotal span:last-child { color: #EB8E1E; font-size: 1.2rem; }
-
-.checkoutBtn {
-    width: 100%;
-    background-color: #EB8E1E;
-    color: #060F2C;
-    border: none;
-    border-radius: 8px;
-    padding: 12px;
-    font-size: 1rem;
-    font-weight: bolder;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-.checkoutBtn:hover  { transform: scale(1.03); opacity: 0.85; }
-.checkoutBtn:active { transform: scale(0.96); opacity: 1; }
-
-/* ─── Empty Cart ─────────────────────────────────────────────── */
-.emptyCart {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: rgba(255, 255, 255, 0.4);
-    padding: 80px 20px;
-    font-size: 1.1rem;
-    gap: 4px;
-}
-
-/* ════════════════════════════════════════════════
-   POPUP SYSTEM
-════════════════════════════════════════════════ */
-
-.popupOverlay {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.55);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    direction: rtl;
-    padding: 16px;
-    animation: popupFadeIn 0.18s ease;
-}
-
-@keyframes popupFadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
-
-/* ── White Popup Box ── */
-.popup {
-    background-color: #ffffff;
-    border-radius: 14px;
-    padding: 24px 24px 22px;
-    width: 100%;
-    max-width: 400px;
-    max-height: 90vh;
-    overflow-y: auto;
-    color: #060F2C;
-    box-shadow: 0 16px 56px rgba(0, 0, 0, 0.35);
-    animation: popupSlideUp 0.22s ease;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.popupWide { max-width: 460px; }
-
-/* Centered variant (success / confirm screens) */
-.popupCenter { text-align: center; align-items: center; }
-
-@keyframes popupSlideUp {
-    from { transform: translateY(22px); opacity: 0; }
-    to   { transform: translateY(0);    opacity: 1; }
-}
-
-/* ── Popup Header row ── */
-.popupHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 14px;
-    border-bottom: 1.5px solid #f3f4f6;
     gap: 10px;
 }
 
-.popupHeaderTitle {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.popupCloseBtn {
-    background: none;
-    border: none;
-    color: #9ca3af;
-    cursor: pointer;
-    padding: 4px 6px;
+.skeletonLine {
+    height: 14px;
     border-radius: 6px;
-    display: flex;
-    align-items: center;
-    transition: background-color 0.15s, color 0.15s;
-    flex-shrink: 0;
 }
 
-.popupCloseBtn:hover { background-color: #f3f4f6; color: #374151; }
-
-/* ── Popup Icons ── */
-.popupIconWrap {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background-color: rgba(235, 142, 30, 0.1);
-    border: 2px solid #EB8E1E;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-/* Centered large icon for confirm/success */
-.popupCenter .popupIconWrap {
-    width: 64px;
-    height: 64px;
-    margin-bottom: 4px;
-}
-
-.successIconWrap {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background-color: rgba(22, 163, 74, 0.1);
-    border: 2px solid #16a34a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 4px;
-}
-
-/* ── Popup Text ── */
-.popupTitle {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #060F2C;
-    margin: 0;
-}
-
-.popupSubtitle {
-    color: #6b7280;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    margin: 0;
-}
-
-.popupTotalLine {
-    font-size: 0.92rem;
-    color: #374151;
-    margin: -4px 0 0;
-}
-
-.popupTotalVal {
-    color: #EB8E1E;
-    font-size: 1rem;
-}
-
-.popupLoadingText {
-    text-align: center;
-    color: #9ca3af;
-    font-size: 0.9rem;
-    padding: 20px 0;
-}
-
-/* ── Popup Field ── */
-.popupField {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.popupLabel {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #060F2C;
-}
-
-/* ── City Select — matches Login input style ── */
-.popupSelect {
-    width: 100%;
-    padding: 8px 14px;
-    border-radius: 10px;
-    border: solid 2px #d1d5db;
-    background-color: white;
-    color: #060F2C;
-    font-size: 0.95rem;
-    font-family: inherit;
-    font-weight: 700;
-    direction: rtl;
-    outline: none;
-    cursor: pointer;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23374151' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: left 12px center;
-}
-
-.popupSelect:focus {
-    border-color: #EB8E1E;
-    box-shadow: 0 0 0 1px #EB8E1E;
-}
-
-.popupSelect option { color: #060F2C; }
-
-/* ── Login-style Input Box (reused inside popup) ── */
-/* Matches Login.module.css .inputBox exactly */
-.inputBox {
-    background-color: white;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 7px 15px;
-    width: 100%;
-    border-radius: 10px;
-    border: solid 2px #d1d5db;
-    direction: ltr;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    box-sizing: border-box;
-}
-
-.inputBox:focus-within {
-    border-color: #EB8E1E;
-    box-shadow: 0 0 0 1px #EB8E1E;
-}
-
-.inputBox input {
-    flex: 1;
-    outline: none;
-    border: none;
-    font-weight: 700;
-    font-size: 1rem;
-    direction: ltr;
-    text-align: left;
-    color: #060F2C;
-    background: transparent;
-    font-family: inherit;
-}
-
-.inputBox input:disabled { opacity: 0.6; cursor: not-allowed; }
-.inputBox input::placeholder { color: gray; font-size: 1rem; font-weight: 700; }
-
-/* Icon-only left side (for name field) — no divider */
-.iconOnly {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-}
-
-.iconOnly img { width: 20px; opacity: 0.6; }
-
-/* Phone prefix (+962) — divider sits between +962 and the input */
-.prefix {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    border-right: 1px solid #ddd;
-    padding-right: 10px;
-    flex-shrink: 0;
-}
-
-.prefix img { width: 20px; }
-.prefix span { color: black; opacity: 0.6; font-weight: bold; font-size: 0.9rem; }
-
-/* ── Popup Error ── */
-.popupError {
-    color: #dc2626;
-    font-size: 0.82rem;
-    margin: 0;
-}
-
-/* ── Popup Actions ── */
-.popupActions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 2px;
-}
-
-.popupCenter .popupActions { width: 100%; }
-
-.popupConfirmBtn {
-    width: 100%;
-    padding: 11px;
-    background-color: #EB8E1E;
-    color: #060F2C;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: opacity 0.2s, transform 0.15s;
-    font-family: inherit;
-}
-
-.popupConfirmBtn:hover:not(:disabled) { opacity: 0.88; transform: translateY(-1px); }
-.popupConfirmBtn:active:not(:disabled){ transform: scale(0.98); }
-.popupConfirmBtn:disabled { opacity: 0.6; cursor: not-allowed; }
-
-/* Danger variant (remove) */
-.popupDangerBtn {
-    background-color: #dc2626 !important;
-    color: white !important;
-}
-
-.popupCancelBtn {
-    width: 100%;
-    padding: 10px;
-    background-color: white;
-    color: #374151;
-    border: 1.5px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: background-color 0.15s, border-color 0.15s;
-    font-family: inherit;
-}
-
-.popupCancelBtn:hover:not(:disabled) { background-color: #f3f4f6; border-color: #9ca3af; }
-.popupCancelBtn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-/* ── Orders List ── */
-.ordersBody {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-height: 52vh;
-    overflow-y: auto;
-    padding-left: 2px;
-}
-
-.ordersBody::-webkit-scrollbar { width: 4px; }
-.ordersBody::-webkit-scrollbar-track { background: #f9fafb; }
-.ordersBody::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
-
-.orderCard {
-    background-color: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 12px 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    transition: border-color 0.2s;
-}
-
-.orderCard:hover { border-color: #EB8E1E; }
-
-.orderCardTop {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.orderIdBadge {
-    font-family: monospace;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #374151;
-    background-color: #e5e7eb;
-    padding: 2px 8px;
-    border-radius: 4px;
-}
-
-.orderStatusBadge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 20px;
-}
-
-.orderCardMeta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.orderDate  { font-size: 0.82rem; color: #9ca3af; }
-.orderTotal { font-size: 1rem; font-weight: 700; color: #EB8E1E; }
-
-.orderItemCount {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 0.8rem;
-    color: #9ca3af;
-}
-
-/* ── Responsive ── */
-@media (max-width: 500px) {
-    .pageHeader { gap: 10px; }
-    .headerBtn  { padding: 8px 12px; font-size: 0.82rem; }
-    .popup      { padding: 18px 16px 16px; border-radius: 12px; }
-    .popupWide  { max-width: 100%; }
-    .pageTitle  { font-size: 1.6rem; }
-}
+.skeletonTitle      { width: 65%; height: 18px; }
+.skeletonPrice      { width: 30%; height: 16px; }
+.skeletonDesc       { width: 90%; }
+.skeletonDescShort  { width: 55%; }
