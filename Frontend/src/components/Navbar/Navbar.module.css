@@ -118,3 +118,38 @@
         width: 175px;
     }
 }
+
+/* --- Sticky Navbar Classes --- */
+
+.navbarWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #060F2C; /* Keeps the whole top bar dark */
+    z-index: 1000; /* Ensures it stays above all other content */
+    transition: transform 0.3s ease-in-out;
+}
+
+.navbarVisible {
+    transform: translateY(0);
+}
+
+.navbarHidden {
+    transform: translateY(-100%);
+}
+
+.navbarSpacer {
+    /* This prevents your page content from jumping up behind the fixed navbar. */
+    /* Change this value to match the exact height of your navbar */
+    height: 90px; 
+}
+
+.adminButton:hover {
+    cursor: pointer;
+    transform: scale(1.25);
+}
+
+.adminButton:active {
+    transform: scale(0.9);
+}

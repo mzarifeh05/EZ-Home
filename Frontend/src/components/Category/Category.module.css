@@ -1,0 +1,279 @@
+.container {
+    width: 100%;
+    padding: 10px;
+    background-color: rgb(225, 225, 225);
+}
+
+.header {
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+    padding: 10px 20px;
+    align-items: center;
+    border-bottom: solid 1px gray;
+}
+
+.header h1 {
+    color: #060F2C;
+}
+
+.header button {
+    background-color: #EB8E1E;
+    padding: 10px 15px;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.header button:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    color: rgb(225, 225, 225);
+}
+
+.header button:active {
+    transform: scale(1);
+}
+
+.cards {
+    display: flex;
+    justify-content: start;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+
+.cards>div {
+    width: 200px;
+    padding: 10px;
+    border-radius: 5px;
+    color: #060F2C;
+    background-color: white;
+}
+
+.cards>div h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cards>div .buttons {
+    display: flex;
+    justify-content: start;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.cards>div .buttons button {
+    padding: 1px 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #DC2626;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.cards>div .buttons button:hover {
+    cursor: pointer;
+    opacity: 0.75;
+}
+
+.cards>div .buttons button:active {
+    transform: scale(0.9);
+}
+
+.cards>div .buttons button:nth-child(1) {
+    background-color: #2563EB;
+}
+
+/* ── Modal Overlay ── */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(6, 15, 44, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* ── Modal Box ── */
+.modal {
+    background-color: white;
+    border-radius: 10px;
+    width: 420px;
+    max-width: 90vw;
+    box-shadow: 0 10px 40px rgba(6, 15, 44, 0.25);
+    animation: slideUp 0.2s ease;
+    overflow: hidden;
+    direction: rtl;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ── Modal Header ── */
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+}
+
+.modalHeader h2 {
+    color: #060F2C;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.closeBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.15s, color 0.15s;
+}
+
+.closeBtn:hover {
+    background-color: #f3f4f6;
+    color: #111827;
+}
+
+/* ── Modal Body ── */
+.modalBody {
+    padding: 20px;
+}
+
+.modalBody label {
+    display: block;
+    color: #060F2C;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.modalBody input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #060F2C;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+    direction: rtl;
+}
+
+.modalBody input:focus {
+    border-color: #EB8E1E;
+    box-shadow: 0 0 0 3px rgba(235, 142, 30, 0.15);
+}
+
+.error {
+    color: #DC2626;
+    font-size: 0.875rem;
+    margin-top: 6px;
+}
+
+.deleteMessage {
+    color: #374151;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ── Modal Footer ── */
+.modalFooter {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 16px 20px;
+    border-top: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+}
+
+.cancelBtn {
+    padding: 9px 20px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 6px;
+    background-color: white;
+    color: #374151;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.cancelBtn:hover {
+    background-color: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+.confirmBtn {
+    padding: 9px 20px;
+    border: none;
+    border-radius: 6px;
+    background-color: #EB8E1E;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+}
+
+.confirmBtn:hover:not(:disabled) {
+    opacity: 0.88;
+}
+
+.confirmBtn:active:not(:disabled) {
+    transform: scale(0.97);
+}
+
+.confirmBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.deleteBtn {
+    padding: 9px 20px;
+    border: none;
+    border-radius: 6px;
+    background-color: #DC2626;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+}
+
+.deleteBtn:hover:not(:disabled) {
+    opacity: 0.88;
+}
+
+.deleteBtn:active:not(:disabled) {
+    transform: scale(0.97);
+}
+
+.deleteBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

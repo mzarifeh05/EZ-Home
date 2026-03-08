@@ -1,0 +1,136 @@
+.pageWrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-grow: 1;
+    padding-right: 300px; 
+    background-color: rgb(225, 225, 225); 
+}
+
+/* --- Base Sidebar Styles --- */
+.sideMenu {
+    position: fixed;
+    right: 0;
+    background-color: #060F2C;
+    color: white;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    /* This transition perfectly matches your Navbar's animation speed */
+    transition: top 0.3s ease-in-out, height 0.3s ease-in-out;
+}
+
+/* --- Desktop Layout (Dynamic Top/Height) --- */
+@media (min-width: 769px) {
+    /* When Navbar is showing */
+    .sideMenuDown {
+        top: 100px;
+        height: calc(100vh - 100px);
+    }
+
+    /* When Navbar is hidden */
+    .sideMenuUp {
+        top: 0;
+        height: 100vh;
+    }
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-bottom: solid 1px rgba(211, 211, 211, 0.2);
+    padding: 20px 10px;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.navLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px 0;
+}
+
+.navButton {
+    background: none;
+    border: none;
+    color: lightgray;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 85%;
+    margin: 0 auto;
+    padding: 12px 15px;
+    font-size: 1.1rem;
+    font-family: inherit;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.navButton:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navButton.active {
+    color: white;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.navButton:active {
+    transform: scale(0.95);
+}
+
+.mainContent {
+    flex-grow: 1;
+    padding: 20px;
+    width: 100%;
+}
+
+/* --- Mobile Layout (Fixed Bottom) --- */
+@media (max-width: 768px) {
+    .container {
+        padding-right: 0;
+        padding-bottom: 70px;
+    }
+
+    .sideMenu {
+        top: auto !important; /* Forces it to ignore the JS dynamic top */
+        bottom: 0;
+        right: 0;
+        left: 0;
+        width: 100%;
+        height: 70px !important; /* Forces it to ignore the JS dynamic height */
+        flex-direction: row;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .brand, .brandText, .linkText {
+        display: none; 
+    }
+
+    .navLinks {
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0;
+        gap: 0;
+    }
+
+    .navButton {
+        width: auto;
+        padding: 15px;
+        margin: 0;
+        justify-content: center;
+    }
+}

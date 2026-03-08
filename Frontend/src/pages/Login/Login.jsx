@@ -10,6 +10,7 @@ import api from "../../api/axios";
 const Login = () => {
     const [user, setUser] = useState({ phone: "", password: "" });
     const [warning, setWarning] = useState(false);
+    const [warningMessage, setWarningMessage] = useState("");
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
@@ -26,29 +27,33 @@ const Login = () => {
 
     function inputValidation() {
         if (!user.phone.trim() || !user.password.trim())
-            return false;
+            return "الرجاء تعبئة جميع الحقول";
         if (user.phone.length !== 9)
-            return false;
-        return true;
+            return "رقم الهاتف يجب أن يتكون من 9 أرقام";
+        return null;
     }
 
     const handleSubmitClick = async () => {
-        if (!inputValidation()) {
+        const validationError = inputValidation();
+        if (validationError) {
+            setWarningMessage(validationError);
             setWarning(true);
             return;
         }
         try {
             setLoading(true);
-            const res = await api.post("/auth/login", { ...user, phone: `00962${user.phone}` }
-            );
-
-            localStorage.setItem("token", res.data.data.token)
+            const res = await api.post("/auth/login", { ...user, phone: `00962${user.phone}` });
+            localStorage.setItem("token", res.data.data.token);
+            const payload = JSON.parse(atob(res.data.data.token.split('.')[1]));
+            localStorage.setItem("role", payload.role);
+            localStorage.setItem("userId", payload._id || payload.id);
+            console.log(payload);
             navigate('/')
         } catch (err) {
-            console.error(err.response?.data || err.message);
-            setWarning(true)
-        }
-        finally {
+            const msg = err.response?.data?.message || "حدث خطأ، يرجى المحاولة مرة أخرى";
+            setWarningMessage(msg);
+            setWarning(true);
+        } finally {
             setLoading(false);
         }
     };
@@ -79,6 +84,7 @@ const Login = () => {
                                 type="text"
                                 inputMode="numeric"
                                 placeholder='7XXXXXXXX'
+                                disabled={loading}
                             />
                         </div>
                     </div>
@@ -94,12 +100,24 @@ const Login = () => {
                                 onChange={handlePassChange}
                                 type="password"
                                 placeholder='password'
+                                disabled={loading}
                             />
                         </div>
                     </div>
 
-                    <button onClick={handleSubmitClick} className={style.button}>
-                        تسجيل الدخول
+                    <button
+                        onClick={handleSubmitClick}
+                        className={`${style.button} ${loading ? style.buttonLoading : ''}`}
+                        disabled={loading}
+                    >
+                        {loading ? (
+                            <span className={style.spinnerWrapper}>
+                                <span className={style.spinner}></span>
+                                <span>جارٍ التحميل...</span>
+                            </span>
+                        ) : (
+                            'تسجيل الدخول'
+                        )}
                     </button>
 
                     <p className={style.p}>
@@ -110,7 +128,17 @@ const Login = () => {
                     </p>
                 </div>
 
-                {warning && <WarningPopup close={() => setWarning(false)} />}
+                {loading && (
+                    <div className={style.overlay}>
+                        <div className={style.overlaySpinner}>
+                            <div className={style.ring}></div>
+                            <div className={style.ring}></div>
+                            <div className={style.ring}></div>
+                        </div>
+                    </div>
+                )}
+
+                {warning && <WarningPopup message={warningMessage} close={() => setWarning(false)} />}
             </div>
         </>
     )

@@ -1,4 +1,5 @@
 const Category = require('../models/category.model.js');
+const Product = require('../models/product.model.js');
 
 function createError(status, message) {
     const err = new Error(message);
@@ -9,10 +10,6 @@ function createError(status, message) {
 
 class CategoryService {
     async createCategory(data) {
-        if (!data.name || !data.name.trim()) {
-            throw createError(400, 'اسم التصنيف مطلوب');
-        }
-
         const existing = await Category.findOne({ name: data.name.trim() });
         if (existing) throw createError(409, 'هذا التصنيف موجود مسبقاً');
 
@@ -21,7 +18,7 @@ class CategoryService {
     }
 
     async getAllCategories() {
-        return Category.find({ isActive: true }).sort({ createdAt: -1 });
+        return Category.find({}).sort({ createdAt: -1 });
     }
 
     async getCategoryById(id) {
@@ -34,7 +31,7 @@ class CategoryService {
         const category = await Category.findById(id);
         if (!category) throw createError(404, 'التصنيف غير موجود');
 
-        if (data.name) {
+        if (data.name !== undefined) {
             const duplicate = await Category.findOne({ name: data.name.trim(), _id: { $ne: id } });
             if (duplicate) throw createError(409, 'هذا الاسم مستخدم بالفعل');
             data.name = data.name.trim();
@@ -47,6 +44,12 @@ class CategoryService {
     async deleteCategory(id) {
         const category = await Category.findById(id);
         if (!category) throw createError(404, 'التصنيف غير موجود');
+
+        const productsCount = await Product.countDocuments({ category: id });
+        if (productsCount > 0) {
+            throw createError(409, 'لا يمكن حذف التصنيف لأنه مرتبط بمنتجات');
+        }
+
         await Category.findByIdAndDelete(id);
         return { deleted: true };
     }

@@ -1,0 +1,452 @@
+.container {
+    width: 100%;
+    padding: 10px;
+    background-color: rgb(225, 225, 225);
+}
+
+.header {
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+    padding: 10px 20px;
+    align-items: center;
+    border-bottom: solid 1px gray;
+}
+
+.header h1 {
+    color: #060F2C;
+}
+
+.header button {
+    background-color: #EB8E1E;
+    padding: 10px 15px;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.header button:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.header button:active {
+    transform: scale(1);
+}
+
+/* ── Cards Grid ── */
+/* ── Cards Grid ── */
+.cards {
+    display: grid;
+    /* This creates a responsive grid. Cards will be at least 240px wide, but will stretch (1fr) to fill any extra space! */
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+    padding: 20px 10px;
+}
+
+.card {
+    width: 100%; /* Changed from fixed 220px to 100% of the grid cell */
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(6, 15, 44, 0.08);
+    display: flex;
+    flex-direction: column;
+    /* Added a smooth lift effect on hover */
+    transition: box-shadow 0.2s ease, transform 0.2s ease; 
+}
+
+.card:hover {
+    box-shadow: 0 6px 20px rgba(6, 15, 44, 0.12);
+    transform: translateY(-3px); /* Lifts the card slightly */
+}
+
+.cardImage {
+    width: 100%;
+    height: 180px; /* Slightly taller for a nice medium size */
+    background-color: white; /* Changed to white so images blend better */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px; /* Adds breathing room around the full image */
+    box-sizing: border-box;
+    border-bottom: 1px solid #f3f4f6; /* Subtle separator from the content */
+}
+
+.cardImage img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* This prevents the image from being cut! */
+}
+
+.noImage {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9ca3af;
+    font-size: 0.85rem;
+}
+
+/* (The rest of your cardBody, description, etc. stays exactly the same!) */
+
+.cardBody {
+    padding: 10px 12px;
+    flex: 1;
+    direction: rtl;
+}
+
+.cardBody h3 {
+    color: #060F2C;
+    margin: 0 0 6px;
+    font-size: 1rem;
+}
+
+.description {
+    color: #6b7280;
+    font-size: 0.82rem;
+    margin: 0 0 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.cardMeta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price {
+    color: #EB8E1E;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.stock {
+    color: #6b7280;
+    font-size: 0.8rem;
+}
+
+.cardButtons {
+    display: flex;
+    border-top: 1px solid #f3f4f6;
+}
+
+.cardButtons button {
+    flex: 1;
+    padding: 8px 0;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-weight: 500;
+    transition: opacity 0.15s;
+}
+
+.cardButtons button:hover {
+    opacity: 0.8;
+}
+
+.cardButtons button:active {
+    transform: scale(0.97);
+}
+
+.editBtn {
+    background-color: #2563EB;
+    color: white;
+    border-right: 1px solid #f3f4f6 !important;
+}
+
+.deleteBtn {
+    background-color: #DC2626;
+    color: white;
+}
+
+/* ── Modal ── */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(6, 15, 44, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.modal {
+    background-color: white;
+    border-radius: 10px;
+    width: 480px;
+    max-width: 95vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(6, 15, 44, 0.25);
+    animation: slideUp 0.2s ease;
+    direction: rtl;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.modalHeader h2 {
+    color: #060F2C;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.closeBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.15s;
+}
+
+.closeBtn:hover {
+    background-color: #f3f4f6;
+    color: #111827;
+}
+
+.modalBody {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* Image Upload */
+.imageUpload {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.imagePreview {
+    width: 90px;
+    height: 90px;
+    border-radius: 8px;
+    background-color: #f3f4f6;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px dashed #d1d5db;
+    color: #9ca3af;
+    font-size: 0.78rem;
+    text-align: center;
+}
+
+.imagePreview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.uploadLabel {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    background-color: #f3f4f6;
+    border: 1.5px solid #d1d5db;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #374151;
+    transition: background-color 0.15s;
+}
+
+.uploadLabel:hover {
+    background-color: #e5e7eb;
+}
+
+/* Form */
+.formRow {
+    display: flex;
+    gap: 12px;
+}
+
+.formRow .formGroup {
+    flex: 1;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.formGroup label {
+    color: #060F2C;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.hint {
+    color: #9ca3af;
+    font-weight: 400;
+    font-size: 0.8rem;
+}
+
+.formGroup input,
+.formGroup textarea,
+.formGroup .select {
+    padding: 9px 12px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: #060F2C;
+    outline: none;
+    transition: border-color 0.2s;
+    direction: rtl;
+    font-family: inherit;
+    resize: vertical;
+    background-color: white;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus,
+.formGroup .select:focus {
+    border-color: #EB8E1E;
+    box-shadow: 0 0 0 3px rgba(235, 142, 30, 0.15);
+}
+
+.categoryBadge {
+    display: inline-block;
+    background-color: rgba(235, 142, 30, 0.12);
+    color: #EB8E1E;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-bottom: 6px;
+}
+
+.error {
+    color: #DC2626;
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.deleteMessage {
+    color: #374151;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* Footer */
+.modalFooter {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 16px 20px;
+    border-top: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+    position: sticky;
+    bottom: 0;
+}
+
+.cancelBtn {
+    padding: 9px 20px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 6px;
+    background-color: white;
+    color: #374151;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.cancelBtn:hover {
+    background-color: #f3f4f6;
+}
+
+.confirmBtn {
+    padding: 9px 20px;
+    border: none;
+    border-radius: 6px;
+    background-color: #EB8E1E;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+.confirmBtn:hover:not(:disabled) {
+    opacity: 0.88;
+}
+
+.confirmBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.deleteBtnModal {
+    padding: 9px 20px;
+    border: none;
+    border-radius: 6px;
+    background-color: #DC2626;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+.deleteBtnModal:hover:not(:disabled) {
+    opacity: 0.88;
+}
+
+.deleteBtnModal:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

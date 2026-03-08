@@ -91,22 +91,6 @@ class CategoryController {
     }
   }
 
-  async toggleActive(req, res) {
-    try {
-      const category = await CategoryService.toggleActive(req.params.id);
-      return res.json({
-        success: true,
-        message: `تم ${category.isActive ? 'تفعيل' : 'تعطيل'} التصنيف بنجاح`,
-        data: category
-      });
-    } catch (error) {
-      return res.status(getStatusCode(error)).json({
-        success: false,
-        message: error.message,
-        error: error.message
-      });
-    }
-  }
 }
 
 module.exports = new CategoryController();

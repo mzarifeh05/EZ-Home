@@ -1,0 +1,27 @@
+.container {
+    width: 80%;
+    margin: auto;
+}
+
+.cards {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    align-items: stretch;
+}
+
+h1 {
+    color: whitesmoke;
+    text-align: center;
+}
+
+.empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bolder;
+    color: white;
+    min-height: 80vh;
+}
