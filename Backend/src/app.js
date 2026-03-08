@@ -19,37 +19,7 @@ const app = express();
 
 const isProduction = NODE_ENV;
 
-app.use(helmet({
-  contentSecurityPolicy: isProduction ? {
-    directives: {
-      defaultSrc:  ["'self'"],
-      scriptSrc:   ["'self'"],
-      styleSrc:    ["'self'", "'unsafe-inline'"],
-      imgSrc:      ["'self'", "data:", "https:"],
-      connectSrc:  ["'self'"],
-      objectSrc:   ["'none'"],
-      frameAncestors: ["'none'"],
-      upgradeInsecureRequests: []
-    }
-  } : false,
-
-  frameguard: { action: 'deny' },
-
-
-  hsts: isProduction ? {
-    maxAge: 31536000,
-    includeSubDomains: true,
-    preload: true,
-  } : false,
-
-  noSniff: true,
-  hidePoweredBy: true,
-  dnsPrefetchControl: { allow: false },
-  crossOriginOpenerPolicy: { policy: "same-origin" },
-  crossOriginResourcePolicy: { policy: "same-origin" },
-  referrerPolicy: { policy: "strict-origin-when-cross-origin" },
-  originAgentCluster: true,
-}));
+app.use(helmet());
 
 app.use(cors({
     origin: CLIENT_URL,
@@ -65,7 +35,6 @@ app.use("/api/product", productRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/order", orderRoutes);
 app.use("/api/wishlist", wishlistRoutes);
-
 
 app.get("/", (req, res) => {
   res.json({ message: "API Running..." });

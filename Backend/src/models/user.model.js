@@ -38,19 +38,3 @@ const User = mongo.model("User", UserSchema);
 // CreatUser();
 
 module.exports = User;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
