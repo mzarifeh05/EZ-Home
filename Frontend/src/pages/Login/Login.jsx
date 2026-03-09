@@ -33,7 +33,13 @@ const Login = () => {
         return null;
     }
 
-    const handleSubmitClick = async () => {
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') handleSubmitClick();
+    };
+
+    const handleSubmitClick = async (e) => {
+        if (e) e.preventDefault();
+
         const validationError = inputValidation();
         if (validationError) {
             setWarningMessage(validationError);
@@ -69,56 +75,66 @@ const Login = () => {
                 <div className={style.box}>
                     <h1>تسجيل الدخول</h1>
 
-                    <div className={style.field}>
-                        <label htmlFor="phone-input">رقم الهاتف</label>
-                        <div className={style.inputBox}>
-                            <div className={style.prefix}>
-                                <img src={phoneIcon} alt="phone" />
-                                <span>+962</span>
+                    {/* form tag enables browser save-password prompt and Enter key submission */}
+                    <form onSubmit={handleSubmitClick} autoComplete="on">
+                        <div className={style.field}>
+                            <label htmlFor="phone-input">رقم الهاتف</label>
+                            <div className={style.inputBox}>
+                                <div className={style.prefix}>
+                                    <img src={phoneIcon} alt="phone" />
+                                    <span>+962</span>
+                                </div>
+                                <input
+                                    dir="ltr"
+                                    id='phone-input'
+                                    name="username"
+                                    autoComplete="username"
+                                    value={user.phone}
+                                    onChange={handlePhoneChange}
+                                    onKeyDown={handleKeyDown}
+                                    type="text"
+                                    inputMode="numeric"
+                                    placeholder='7XXXXXXXX'
+                                    disabled={loading}
+                                />
                             </div>
-                            <input
-                                dir="ltr"
-                                id='phone-input'
-                                value={user.phone}
-                                onChange={handlePhoneChange}
-                                type="text"
-                                inputMode="numeric"
-                                placeholder='7XXXXXXXX'
-                                disabled={loading}
-                            />
                         </div>
-                    </div>
 
-                    <div className={style.field}>
-                        <label htmlFor="input-password">كلمة المرور</label>
-                        <div className={style.inputBox}>
-                            <img src={lockIcon} alt="lock" className={style.iconOnly} />
-                            <input
-                                dir="ltr"
-                                id='input-password'
-                                value={user.password}
-                                onChange={handlePassChange}
-                                type="password"
-                                placeholder='password'
-                                disabled={loading}
-                            />
+                        <div className={style.field}>
+                            <label htmlFor="input-password">كلمة المرور</label>
+                            <div className={style.inputBox}>
+                                <img src={lockIcon} alt="lock" className={style.iconOnly} />
+                                <input
+                                    dir="ltr"
+                                    id='input-password'
+                                    name="password"
+                                    autoComplete="current-password"
+                                    value={user.password}
+                                    onChange={handlePassChange}
+                                    onKeyDown={handleKeyDown}
+                                    type="password"
+                                    placeholder='password'
+                                    disabled={loading}
+                                />
+                            </div>
                         </div>
-                    </div>
 
-                    <button
-                        onClick={handleSubmitClick}
-                        className={`${style.button} ${loading ? style.buttonLoading : ''}`}
-                        disabled={loading}
-                    >
-                        {loading ? (
-                            <span className={style.spinnerWrapper}>
-                                <span className={style.spinner}></span>
-                                <span>جارٍ التحميل...</span>
-                            </span>
-                        ) : (
-                            'تسجيل الدخول'
-                        )}
-                    </button>
+                        {/* type="submit" is what triggers browser save-password AND Enter key */}
+                        <button
+                            type="submit"
+                            className={`${style.button} ${loading ? style.buttonLoading : ''}`}
+                            disabled={loading}
+                        >
+                            {loading ? (
+                                <span className={style.spinnerWrapper}>
+                                    <span className={style.spinner}></span>
+                                    <span>جارٍ التحميل...</span>
+                                </span>
+                            ) : (
+                                'تسجيل الدخول'
+                            )}
+                        </button>
+                    </form>
 
                     <p className={style.p}>
                         ليس لديك حساب؟

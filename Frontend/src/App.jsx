@@ -6,13 +6,13 @@ import Favorite from './pages/Favorite/Favorite'
 import Admin from './pages/Admin/Admin'
 import Cart from './pages/Cart/Cart'
 import DetailsCard from './components/DetailsCard/DetailsCard'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
 
   return (
     <>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/Register' element={<Register />} />
@@ -22,7 +22,7 @@ function App() {
           <Route path='/Cart' element={<Cart />} />
           <Route path="/Details" element={<DetailsCard />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </>
   )
 }

@@ -17,6 +17,7 @@ const Toast = ({ message, type }) => {
 const Card = ({ img, title, price, description, id, wishlistIds, forceFavorite, onRemove }) => {
     const [favorite, setFavorite] = useState(false);
     const [toast, setToast] = useState({ message: '', type: '' });
+    const [cartLoading, setCartLoading] = useState(false);
 
     useEffect(() => {
         if (forceFavorite) {
@@ -40,6 +41,7 @@ const Card = ({ img, title, price, description, id, wishlistIds, forceFavorite, 
         }
 
         try {
+            setCartLoading(true);
             const res = await api.post("/cart/items", {
                 productId: id,
                 qty: 1,
@@ -50,33 +52,27 @@ const Card = ({ img, title, price, description, id, wishlistIds, forceFavorite, 
         } catch (error) {
             console.log(error);
             showToast("حدث خطأ، حاول مرة أخرى", "error");
+        } finally {
+            setCartLoading(false);
         }
     };
 
     const addToFavorite = async () => {
         try {
-            await api.post("/wishlist/items", {
-                productId: id
-            });
-            console.log("added");
+            await api.post("/wishlist/items", { productId: id });
+        } catch (error) {
+            console.error(error);
         }
-        catch (error) {
-            console.error(error)
-        }
-    }
+    };
 
     const removeFromFavorite = async () => {
         try {
             await api.delete(`/wishlist/items/${id}`);
-            if (onRemove) {
-                onRemove(id);
-            }
-            console.log("removed");
+            if (onRemove) onRemove(id);
+        } catch (error) {
+            console.error(error);
         }
-        catch (error) {
-            console.error(error)
-        }
-    }
+    };
 
     return (
         <>
@@ -85,16 +81,15 @@ const Card = ({ img, title, price, description, id, wishlistIds, forceFavorite, 
                 <div className={style.upper}>
                     {localStorage.getItem("role") === "user" &&
                         <p>
-                            {favorite ?
-                                <img onClick={() => { setFavorite(!favorite); removeFromFavorite() }} src={filledHeart} alt="favorite-icon" />
-                                :
-                                <img onClick={() => { setFavorite(!favorite); addToFavorite() }} src={unfilledHeart} alt="favorite-icon" />
+                            {favorite
+                                ? <img onClick={() => { setFavorite(!favorite); removeFromFavorite(); }} src={filledHeart} alt="favorite-icon" />
+                                : <img onClick={() => { setFavorite(!favorite); addToFavorite(); }} src={unfilledHeart} alt="favorite-icon" />
                             }
-                        </p>}
-                    {img ?
-                        <img src={img} alt="" />
-                        :
-                        <div className={style.noImage}>no image preview</div>
+                        </p>
+                    }
+                    {img
+                        ? <img src={img} alt="" />
+                        : <div className={style.noImage}>no image preview</div>
                     }
                 </div>
                 <div className={style.lower}>
@@ -103,7 +98,16 @@ const Card = ({ img, title, price, description, id, wishlistIds, forceFavorite, 
                     <p>{description}</p>
                     <div className={style.actions}>
                         <Link onClick={() => localStorage.setItem("id", id)} className={style.a} to={`/details`}>المزيد</Link>
-                        <button onClick={addToCart}>أضف إلى السلة</button>
+                        <button
+                            onClick={addToCart}
+                            disabled={cartLoading}
+                            className={`${style.cartButton} ${cartLoading ? style.cartButtonLoading : ''}`}
+                        >
+                            {cartLoading
+                                ? <span className={style.cartSpinner} />
+                                : 'أضف إلى السلة'
+                            }
+                        </button>
                     </div>
                 </div>
             </div>

@@ -21,7 +21,7 @@ const JORDAN_CITIES = [
 
 const STATUS_MAP = {
     pending:   { label: 'قيد الانتظار', color: '#D97706', bg: 'rgba(217,119,6,0.1)',  Icon: BsClock      },
-    paid:      { label: 'تم الاستلام',        color: '#16a34a', bg: 'rgba(22,163,74,0.1)',   Icon: BsCheckCircle },
+    paid:      { label: 'تم الاستلام',  color: '#16a34a', bg: 'rgba(22,163,74,0.1)',   Icon: BsCheckCircle },
     cancelled: { label: 'ملغي',         color: '#dc2626', bg: 'rgba(220,38,38,0.1)',   Icon: BsXCircle    },
 };
 
@@ -181,33 +181,24 @@ const MyOrdersPopup = ({ onClose }) => {
 
 /* ─── Edit Profile Popup ─────────────────────────────────────── */
 const EditProfilePopup = ({ onClose }) => {
-
     const [form, setForm] = useState({ fullName: '', phone: '' });
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
 
-    // Pre-fill with current user data
     useEffect(() => {
         (async () => {
             try {
                 const res = await api.get('/auth');
                 const user = res.data.data;
-
                 const rawPhone = user.phone?.startsWith('00962')
                     ? user.phone.slice(5)
                     : user.phone || '';
-
-                setForm({
-                    fullName: user.fullName || '',
-                    phone: rawPhone
-                });
+                setForm({ fullName: user.fullName || '', phone: rawPhone });
             } catch (err) {
                 setError('تعذّر تحميل بياناتك');
-            } finally {
-                setLoading(false);
-            }
+            } finally { setLoading(false); }
         })();
     }, []);
 
@@ -218,35 +209,17 @@ const EditProfilePopup = ({ onClose }) => {
     };
 
     const handleSubmit = async () => {
-        if (!form.fullName.trim()) {
-            setError('الرجاء إدخال الاسم الكامل');
-            return;
-        }
-
-        if (form.phone && form.phone.length !== 9) {
-            setError('رقم الهاتف يجب أن يتكون من 9 أرقام');
-            return;
-        }
-
-        setSaving(true);
-        setError('');
-
+        if (!form.fullName.trim()) { setError('الرجاء إدخال الاسم الكامل'); return; }
+        if (form.phone && form.phone.length !== 9) { setError('رقم الهاتف يجب أن يتكون من 9 أرقام'); return; }
+        setSaving(true); setError('');
         try {
             const payload = { fullName: form.fullName };
-
-            if (form.phone) {
-                payload.phone = `00962${form.phone}`;
-            }
-
-            // ✅ correct endpoint
+            if (form.phone) payload.phone = `00962${form.phone}`;
             await api.put('/auth', payload);
-
             setSuccess(true);
         } catch (err) {
             setError(err.response?.data?.message || 'حدث خطأ أثناء التحديث');
-        } finally {
-            setSaving(false);
-        }
+        } finally { setSaving(false); }
     };
 
     if (success) return (
@@ -267,14 +240,10 @@ const EditProfilePopup = ({ onClose }) => {
             <div className={style.popup}>
                 <div className={style.popupHeader}>
                     <div className={style.popupHeaderTitle}>
-                        <div className={style.popupIconWrap}>
-                            <CiEdit size={22} color="#EB8E1E" />
-                        </div>
+                        <div className={style.popupIconWrap}><CiEdit size={22} color="#EB8E1E" /></div>
                         <h2 className={style.popupTitle}>تعديل البيانات</h2>
                     </div>
-                    <button className={style.popupCloseBtn} onClick={onClose}>
-                        <IoClose size={20} />
-                    </button>
+                    <button className={style.popupCloseBtn} onClick={onClose}><IoClose size={20} /></button>
                 </div>
 
                 {loading ? (
@@ -284,21 +253,11 @@ const EditProfilePopup = ({ onClose }) => {
                         <div className={style.popupField}>
                             <label className={style.popupLabel} htmlFor="edit-name">الاسم الكامل</label>
                             <div className={style.inputBox}>
-                                <div className={style.iconOnly}>
-                                    <img src={personIcon} alt="name" />
-                                </div>
-                                <input
-                                    id="edit-name"
-                                    dir="rtl"
-                                    type="text"
-                                    placeholder="أدخل اسمك الكامل"
+                                <div className={style.iconOnly}><img src={personIcon} alt="name" /></div>
+                                <input id="edit-name" dir="rtl" type="text" placeholder="أدخل اسمك الكامل"
                                     value={form.fullName}
-                                    onChange={e => {
-                                        setForm(f => ({ ...f, fullName: e.target.value }));
-                                        setError('');
-                                    }}
-                                    disabled={saving}
-                                />
+                                    onChange={e => { setForm(f => ({ ...f, fullName: e.target.value })); setError(''); }}
+                                    disabled={saving} />
                             </div>
                         </div>
 
@@ -309,37 +268,19 @@ const EditProfilePopup = ({ onClose }) => {
                                     <img src={phoneIcon} alt="phone" />
                                     <span>+962</span>
                                 </div>
-                                <input
-                                    id="edit-phone"
-                                    dir="ltr"
-                                    type="text"
-                                    inputMode="numeric"
-                                    placeholder="7XXXXXXXX"
-                                    value={form.phone}
-                                    onChange={handlePhoneChange}
-                                    disabled={saving}
-                                />
+                                <input id="edit-phone" dir="ltr" type="text" inputMode="numeric"
+                                    placeholder="7XXXXXXXX" value={form.phone}
+                                    onChange={handlePhoneChange} disabled={saving} />
                             </div>
                         </div>
 
                         {error && <p className={style.popupError}>{error}</p>}
 
                         <div className={style.popupActions}>
-                            <button
-                                className={style.popupConfirmBtn}
-                                onClick={handleSubmit}
-                                disabled={saving}
-                            >
+                            <button className={style.popupConfirmBtn} onClick={handleSubmit} disabled={saving}>
                                 {saving ? 'جاري الحفظ...' : 'حفظ التغييرات'}
                             </button>
-
-                            <button
-                                className={style.popupCancelBtn}
-                                onClick={onClose}
-                                disabled={saving}
-                            >
-                                إلغاء
-                            </button>
+                            <button className={style.popupCancelBtn} onClick={onClose} disabled={saving}>إلغاء</button>
                         </div>
                     </>
                 )}
@@ -355,6 +296,8 @@ const Cart = () => {
     const [showCheckout, setShowCheckout] = useState(false);
     const [showOrders, setShowOrders] = useState(false);
     const [showEditProfile, setShowEditProfile] = useState(false);
+    // Track which item ids are currently updating qty
+    const [qtyLoadingIds, setQtyLoadingIds] = useState(new Set());
     const navigate = useNavigate();
 
     const getCart = async () => {
@@ -370,6 +313,14 @@ const Cart = () => {
         getCart();
     }, []);
 
+    const setQtyLoading = (id, val) => {
+        setQtyLoadingIds(prev => {
+            const next = new Set(prev);
+            val ? next.add(id) : next.delete(id);
+            return next;
+        });
+    };
+
     const removeItem = async (id) => {
         try { await api.delete(`/cart/items/${id}`); await getCart(); }
         catch (error) { console.error(error); }
@@ -380,14 +331,18 @@ const Cart = () => {
     const handleCancelRemove = () => setPendingRemoveId(null);
 
     const increaseQty = async (id, qty) => {
+        setQtyLoading(id, true);
         try { await api.patch(`/cart/items/${id}`, { qty: qty + 1 }); await getCart(); }
         catch (error) { console.log(error); }
+        finally { setQtyLoading(id, false); }
     };
 
     const decreaseQty = async (id, qty) => {
         if (qty === 1) { handleRemoveClick(id); return; }
+        setQtyLoading(id, true);
         try { await api.patch(`/cart/items/${id}`, { qty: qty - 1 }); await getCart(); }
         catch (error) { console.log(error); }
+        finally { setQtyLoading(id, false); }
     };
 
     const handleOrderSuccess = async () => { setShowCheckout(false); await getCart(); };
@@ -405,17 +360,14 @@ const Cart = () => {
             {showEditProfile && <EditProfilePopup onClose={() => setShowEditProfile(false)} />}
 
             <div className={style.page}>
-                {/* ── Page Header ── */}
                 <div className={style.pageHeader}>
                     <h1 className={style.pageTitle}>سلتي</h1>
                     <div className={style.headerActions}>
                         <button className={style.headerBtn} onClick={() => setShowOrders(true)}>
-                            <BsBoxSeam size={16} />
-                            طلباتي
+                            <BsBoxSeam size={16} /> طلباتي
                         </button>
                         <button className={style.headerBtn} onClick={() => setShowEditProfile(true)}>
-                            <CiEdit size={18} />
-                            تعديل البيانات
+                            <CiEdit size={18} /> تعديل البيانات
                         </button>
                     </div>
                 </div>
@@ -427,35 +379,54 @@ const Cart = () => {
                     </div>
                 ) : (
                     <div className={style.layout}>
-                        {/* ── Items List ── */}
                         <div className={style.itemsList}>
-                            {items.map(el => (
-                                <div key={el.product._id} className={style.card}>
-                                    <div className={style.cardImage}>
-                                        {el.product.image
-                                            ? <img src={el.product.image} alt={el.product.name} />
-                                            : <span className={style.noImage}>لا توجد صورة</span>
-                                        }
-                                    </div>
-                                    <div className={style.cardInfo}>
-                                        <p className={style.cardName}>{el.product.name}</p>
-                                        <p className={style.cardPrice}>{el.price} دينار / قطعة</p>
-                                        <p className={style.cardTotal}>الإجمالي: {el.qty * el.price} دينار</p>
-                                        <div className={style.qtyControls}>
-                                            <button className={style.qtyBtn} onClick={() => decreaseQty(el._id, el.qty)}>−</button>
-                                            <span className={style.qtyValue}>{el.qty}</span>
-                                            <button className={style.qtyBtn} onClick={() => increaseQty(el._id, el.qty)}>+</button>
+                            {items.map(el => {
+                                const isQtyLoading = qtyLoadingIds.has(el._id);
+                                return (
+                                    <div key={el.product._id} className={style.card}>
+                                        <div className={style.cardImage}>
+                                            {el.product.image
+                                                ? <img src={el.product.image} alt={el.product.name} />
+                                                : <span className={style.noImage}>لا توجد صورة</span>
+                                            }
                                         </div>
-                                        <button className={style.removeBtn} onClick={() => handleRemoveClick(el._id)}>
-                                            <MdDeleteOutline size={15} />
-                                            إزالة من السلة
-                                        </button>
+                                        <div className={style.cardInfo}>
+                                            <p className={style.cardName}>{el.product.name}</p>
+                                            <p className={style.cardPrice}>{el.price} دينار / قطعة</p>
+                                            <p className={style.cardTotal}>الإجمالي: {el.qty * el.price} دينار</p>
+
+                                            <div className={style.qtyControls}>
+                                                <button
+                                                    className={style.qtyBtn}
+                                                    onClick={() => decreaseQty(el._id, el.qty)}
+                                                    disabled={isQtyLoading}
+                                                >−</button>
+
+                                                {/* Qty display — shows spinner while loading */}
+                                                <span className={style.qtyValue}>
+                                                    {isQtyLoading
+                                                        ? <span className={style.qtySpinner} />
+                                                        : el.qty
+                                                    }
+                                                </span>
+
+                                                <button
+                                                    className={style.qtyBtn}
+                                                    onClick={() => increaseQty(el._id, el.qty)}
+                                                    disabled={isQtyLoading}
+                                                >+</button>
+                                            </div>
+
+                                            <button className={style.removeBtn} onClick={() => handleRemoveClick(el._id)} disabled={isQtyLoading}>
+                                                <MdDeleteOutline size={15} />
+                                                إزالة من السلة
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
 
-                        {/* ── Summary Panel ── */}
                         <div className={style.summary}>
                             <h2 className={style.summaryTitle}>ملخص الطلب</h2>
                             <div className={style.summaryRow}>

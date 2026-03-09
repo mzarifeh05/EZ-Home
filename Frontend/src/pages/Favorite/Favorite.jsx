@@ -30,7 +30,6 @@ const Favorite = () => {
             setLoading(true);
             const res = await api.get("/wishlist");
             setProducts(res.data.data.products)
-            console.log(res.data.data.products)
             if (res.data.data.products.length === 0)
                 setCover(true)
         }
@@ -53,12 +52,14 @@ const Favorite = () => {
             <Navbar />
 
             {loading ? (
-                <div className={style.container}>
-                    <div className={`${style.skeletonLine} ${style.skeletonHeading}`} />
-                    <div className={style.cards}>
-                        {[...Array(4)].map((_, i) => (
-                            <SkeletonCard key={i} />
-                        ))}
+                <div className={style.loadingScreen}>
+                    <div className={style.loadingInner}>
+                        <div className={`${style.skeletonLine} ${style.skeletonHeading}`} />
+                        <div className={style.cards}>
+                            {[...Array(4)].map((_, i) => (
+                                <SkeletonCard key={i} />
+                            ))}
+                        </div>
                     </div>
                 </div>
             ) : (

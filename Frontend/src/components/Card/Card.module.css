@@ -113,7 +113,8 @@
 }
 
 /* ─── Button ─────────────────────────────────────────────────── */
-.actions button {
+.actions button,
+.cartButton {
     background-color: #EB8E1E;
     padding: 5px 15px;
     border: none;
@@ -124,16 +125,44 @@
     transition: 0.2s ease;
     color: #060F2C;
     white-space: nowrap;
+    min-width: 120px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.actions button:hover {
+.actions button:hover,
+.cartButton:not(.cartButtonLoading):hover {
     transform: scale(1.05);
     opacity: 0.8;
 }
 
-.actions button:active {
+.actions button:active,
+.cartButton:not(.cartButtonLoading):active {
     transform: scale(0.9);
     opacity: 1;
+}
+
+/* Loading state — dim slightly, block interaction */
+.cartButtonLoading {
+    opacity: 0.75;
+    cursor: not-allowed;
+}
+
+/* ─── Cart Spinner ───────────────────────────────────────────── */
+@keyframes cartSpin {
+    to { transform: rotate(360deg); }
+}
+
+.cartSpinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 3px solid #060F2C;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: cartSpin 0.7s linear infinite;
 }
 
 /* ─── Link ───────────────────────────────────────────────────── */
@@ -169,8 +198,8 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     direction: rtl;
     animation: fadeInOut 3s ease forwards;
-    white-space: nowrap;           /* keeps text on one line */
-    max-width: calc(100vw - 32px); /* prevents overflow on very small screens */
+    white-space: nowrap;
+    max-width: calc(100vw - 32px);
 }
 
 .toastSuccess {
