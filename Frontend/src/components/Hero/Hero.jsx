@@ -1,6 +1,6 @@
 import React from 'react'
 import style from './Hero.module.css'
-import heroImg from '../../assets/hero.png'
+import heroImg from '../../assets/Hero.png'
 
 const Hero = ({ onProductsClick }) => {
     return (
