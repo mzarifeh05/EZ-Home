@@ -26,15 +26,16 @@ const Home = () => {
     const [categories, setCategories] = useState([]);
     const [category, setCategory] = useState("none");
     const [priceSort, setPriceSort] = useState("none");
+    const [loading, setLoading] = useState(true);
 
     const isAdmin = localStorage.getItem('role') === 'admin';
 
     useEffect(() => {
         const loadProducts = async () => {
             const now = Date.now();
-            // Use cache if it exists and hasn't expired
             if (productCache && productCacheTime && now - productCacheTime < CACHE_DURATION) {
                 setProducts(productCache);
+                setLoading(false);
                 return;
             }
             try {
@@ -44,6 +45,8 @@ const Home = () => {
                 setProducts(productCache);
             } catch (error) {
                 console.log(error);
+            } finally {
+                setLoading(false);
             }
         }
         loadProducts();
@@ -71,7 +74,6 @@ const Home = () => {
         fetchWishlist();
     }, []);
 
-    // Auto-scroll to products section when user starts typing
     const handleSearch = (value) => {
         setSearchQuery(value);
         if (value.trim() !== '' && productsRef.current) {
@@ -124,26 +126,46 @@ const Home = () => {
                         <option value="low">السعر: من الأقل</option>
                     </select>
                 </div>
-                <div className={style.cards}>
-                    {filteredProducts.length > 0
-                        ? filteredProducts.map(Element => (
-                            <Card
-                                id={Element._id}
-                                key={Element._id}
-                                title={Element.name}
-                                img={Element.image}
-                                price={Element.price}
-                                description={Element.description}
-                                wishlistIds={wishlistIds}
-                            />
-                        ))
-                        : searchQuery.trim() !== '' && (
-                            <p style={{ textAlign: 'center', width: '100%', color: '#888', padding: '2rem' }}>
-                                لا توجد نتائج للبحث عن "{searchQuery}"
-                            </p>
-                        )
-                    }
-                </div>
+
+                {loading ? (
+                    <div className={style.skeletonGrid}>
+                        {Array.from({ length: 8 }).map((_, i) => (
+                            <div key={i} className={style.skeletonCard}>
+                                <div className={style.skeletonImage} />
+                                <div className={style.skeletonBody}>
+                                    <div className={style.skeletonTitle} />
+                                    <div className={style.skeletonDesc} />
+                                    <div className={style.skeletonDescShort} />
+                                    <div className={style.skeletonFooter}>
+                                        <div className={style.skeletonPrice} />
+                                        <div className={style.skeletonBtn} />
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className={style.cards}>
+                        {filteredProducts.length > 0
+                            ? filteredProducts.map(Element => (
+                                <Card
+                                    id={Element._id}
+                                    key={Element._id}
+                                    title={Element.name}
+                                    img={Element.image}
+                                    price={Element.price}
+                                    description={Element.description}
+                                    wishlistIds={wishlistIds}
+                                />
+                            ))
+                            : searchQuery.trim() !== '' && (
+                                <p style={{ textAlign: 'center', width: '100%', color: '#888', padding: '2rem' }}>
+                                    لا توجد نتائج للبحث عن "{searchQuery}"
+                                </p>
+                            )
+                        }
+                    </div>
+                )}
             </div>
             <Footer />
         </>

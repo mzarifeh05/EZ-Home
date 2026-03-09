@@ -169,6 +169,8 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     direction: rtl;
     animation: fadeInOut 3s ease forwards;
+    white-space: nowrap;           /* keeps text on one line */
+    max-width: calc(100vw - 32px); /* prevents overflow on very small screens */
 }
 
 .toastSuccess {

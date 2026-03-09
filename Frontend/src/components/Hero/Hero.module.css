@@ -1,73 +1,307 @@
-.container {
+/* ─── Hero Section ───────────────────────────────────────────── */
+.hero {
+    position: relative;
     background-color: #060F2C;
+    min-height: 92vh;
+    width: 100%;
     display: flex;
-    width: 80%;
-    margin: auto;
-    justify-content: space-around;
     align-items: center;
-    min-height: 90vh;
+    justify-content: center;
+    gap: 0;
+    overflow: hidden;
+    padding: 60px 8% 60px;
+    box-sizing: border-box;
+    direction: rtl;
 }
 
-.container .content {
+/* ── Background grid ── */
+.grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(235, 142, 30, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(235, 142, 30, 0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+}
+
+/* ── Orange radial glow ── */
+.glow {
+    position: absolute;
+    right: 30%;
+    top: 50%;
+    transform: translate(50%, -50%);
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(235, 142, 30, 0.06) 0%, rgba(235, 142, 30, 0.02) 40%, transparent 70%);
+    pointer-events: none;
+    border-radius: 50%;
+}
+
+/* ── Content (text side) ── */
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 22px;
+    z-index: 1;
+    animation: slideInRight 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── Delivery badge ── */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(235, 142, 30, 0.1);
+    border: 1px solid rgba(235, 142, 30, 0.35);
+    color: #EB8E1E;
+    padding: 7px 16px;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    animation: slideInRight 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+}
+
+.badgeDot {
+    width: 7px;
+    height: 7px;
+    background-color: #EB8E1E;
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(0.7); }
+}
+
+/* ── Headline ── */
+.headline {
+    color: white;
+    font-size: clamp(2rem, 4.5vw, 3.6rem);
+    font-weight: 800;
+    line-height: 1.25;
+    text-align: right;
+    margin: 0;
+    animation: slideInRight 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+.accent {
+    color: #EB8E1E;
+    position: relative;
+    display: inline-block;
+}
+
+/* Underline decoration on accent */
+.accent::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    right: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #EB8E1E);
+    border-radius: 2px;
+}
+
+/* ── Subtitle ── */
+.sub {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: clamp(0.9rem, 1.6vw, 1.1rem);
+    line-height: 1.7;
+    text-align: right;
+    margin: 0;
+    max-width: 420px;
+    animation: slideInRight 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+
+/* ── Actions ── */
+.actions {
+    display: flex;
+    gap: 14px;
+    animation: slideInRight 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.primaryBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #EB8E1E;
+    color: #060F2C;
+    font-size: 1.05rem;
+    font-weight: 800;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s;
+    font-family: inherit;
+    direction: rtl;
+}
+
+.primaryBtn svg {
+    transform: rotate(180deg); /* flip arrow for RTL */
+    flex-shrink: 0;
+}
+
+.primaryBtn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(235, 142, 30, 0.45);
+}
+
+.primaryBtn:active {
+    transform: scale(0.96);
+    opacity: 0.9;
+}
+
+/* ── Stats row ── */
+.stats {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-top: 8px;
+    animation: slideInRight 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+}
+
+.stat {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
-    color: white;
-    text-align: center;
+    gap: 2px;
 }
 
-.container img {
-    width: 300px;
-    cursor: pointer;
-}
-
-.content h3 {
-    color: rgba(255, 255, 255, 0.9);
-}
-
-.container img:hover {
-    filter: drop-shadow(0 0 2em #0094bcaa);
-}
-
-.container .content span {
+.statNum {
     color: #EB8E1E;
+    font-size: 1.3rem;
+    font-weight: 800;
+    line-height: 1;
 }
 
-.container .content button {
-    color: #060F2C;
-    background-color: #EB8E1E;
-    font-size: 1.5rem;
-    font-weight: bolder;
-    padding: 5px 25px;
-    border: none;
-    border-radius: 10px;
+.statLabel {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+.statDivider {
+    width: 1px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* ── Image side ── */
+.imageWrap {
+    flex: 0 0 auto;
+    width: clamp(280px, 42vw, 580px);
+    position: relative;
     cursor: pointer;
-    margin-top: 10px;
+    z-index: 1;
+    animation: slideInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
 }
 
-.container .content button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(235, 142, 30, 0.4);
+.heroImg {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
+    transition: transform 0.4s ease, filter 0.4s ease;
 }
 
-.container .content button:active {
-    transform: scale(0.9);
+.imageWrap:hover .heroImg {
+    transform: translateY(-8px) scale(1.02);
+    filter: drop-shadow(0 28px 60px rgba(235, 142, 30, 0.3)) drop-shadow(0 10px 30px rgba(0,0,0,0.5));
 }
 
-@media (max-width: 800px) {
-    .container {
-        flex-direction: column;
-        font-size: 0.9rem;
-        width: 100%;
-        justify-content: center;
-        gap: 25px;
-        min-height: 90vh;
+/* Floating delivery badge on image */
+.floatBadge {
+    position: absolute;
+    bottom: 18px;
+    right: 18px;
+    background: rgba(6, 15, 44, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(235, 142, 30, 0.4);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 8px 14px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    pointer-events: none;
+    animation: floatUp 3s ease-in-out infinite;
+}
+
+@keyframes floatUp {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-6px); }
+}
+
+/* ── Entrance animations ── */
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+    .hero {
+        flex-direction: column-reverse;
+        padding: 40px 6% 50px;
+        min-height: 100vh;
+        gap: 30px;
+        text-align: center;
     }
 
-    .container img {
-        width: 200px;
-        order: -1;
+    .glow {
+        right: 50%;
+        top: 30%;
+    }
+
+    .content {
+        align-items: center;
+    }
+
+    .headline,
+    .sub {
+        text-align: center;
+    }
+
+    .imageWrap {
+        width: clamp(240px, 80vw, 400px);
+    }
+
+    .floatBadge {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .stats {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .headline {
+        font-size: 1.8rem;
+    }
+
+    .badge {
+        font-size: 0.73rem;
+        padding: 6px 12px;
+        text-align: center;
+    }
+
+    .primaryBtn {
+        font-size: 0.95rem;
+        padding: 12px 24px;
     }
 }

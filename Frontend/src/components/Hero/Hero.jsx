@@ -1,21 +1,57 @@
 import React from 'react'
 import style from './Hero.module.css'
-import heroImg from '../../assets/hero-cover.png'
+import heroImg from '../../assets/hero.png'
 
 const Hero = ({ onProductsClick }) => {
     return (
-        <div className={style.container}>
+        <section className={style.hero}>
+
+            {/* Background grid lines */}
+            <div className={style.grid} aria-hidden="true" />
+
+            {/* Glow orb behind image */}
+            <div className={style.glow} aria-hidden="true" />
+
+            {/* ── Text Side ── */}
             <div className={style.content}>
-                <h1>
-                    كل ما يحتاجه بيتك من <span>أجهزة منزلية</span>
+
+                <div className={style.badge}>
+                    <span className={style.badgeDot} />
+                    توصيل مجاني لجميع أنحاء المملكة عند الطلب من الموقع
+                </div>
+
+                <h1 className={style.headline}>
+                    كل ما يحتاجه بيتك
                     <br />
-                    بجودة عالية وأسعار تناسبك
+                    من{' '}
+                    <span className={style.accent}>أجهزة منزلية</span>
                 </h1>
-                <h3>راحتك تبدأ من هنا</h3>
-                <button onClick={onProductsClick}>تسوّق الآن</button>
+
+                <p className={style.sub}>
+                    بجودة عالية وأسعار تناسبك — راحتك تبدأ من هنا
+                </p>
+
+                <div className={style.actions}>
+                    <button className={style.primaryBtn} onClick={onProductsClick}>
+                        تسوّق الآن
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" strokeWidth="2.5"
+                            strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+
+
             </div>
-            <img src={heroImg} alt="hero-img" onClick={onProductsClick} />
-        </div>
+
+            {/* ── Image Side ── */}
+            <div className={style.imageWrap} onClick={onProductsClick}>
+                <img src={heroImg} alt="أجهزة منزلية" className={style.heroImg} />
+
+            </div>
+
+        </section>
     )
 }
 

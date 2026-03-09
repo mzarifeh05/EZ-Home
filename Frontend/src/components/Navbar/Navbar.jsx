@@ -64,7 +64,7 @@ const Navbar = ({ removed = false, Home = false, onSearch, searchValue = '' }) =
 
             <div className={`${style.navbarWrapper} ${visible ? style.navbarVisible : style.navbarHidden}`}>
                 <div className={style.container}>
-                    <img onClick={() => navigate('/')} src={logo} alt="logo" />
+                    <img onClick={() => {navigate("/"); window.scrollTo(0, 0);}} src={logo} alt="logo" />
                     {Home && !removed && (
                         <div className={style.searchContainer}>
                             <input
