@@ -9,6 +9,7 @@
     color: #060F2C;
     border-top: solid 5px #EB8E1E;
     animation: popupScale 0.5s ease;
+    z-index: 2;
 }
 
 @media (min-width: 650px) {

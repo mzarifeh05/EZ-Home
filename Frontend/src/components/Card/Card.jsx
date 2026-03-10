@@ -97,7 +97,7 @@ const Card = ({ img, title, price, description, id, wishlistIds, forceFavorite, 
                     <h3>{price} دينار</h3>
                     <p>{description}</p>
                     <div className={style.actions}>
-                        <Link onClick={() => localStorage.setItem("id", id)} className={style.a} to={`/details`}>المزيد</Link>
+                        <Link className={style.a} to={`/details/${id}`}>المزيد</Link>
                         <button
                             onClick={addToCart}
                             disabled={cartLoading}

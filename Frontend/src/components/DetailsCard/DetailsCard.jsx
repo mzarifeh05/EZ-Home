@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-// Removed useParams since you are using localStorage
+import { useParams } from "react-router-dom";
 import style from "./DetailsCard.module.css";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
@@ -7,8 +7,7 @@ import Card from "../Card/Card";
 import api from "../../api/axios";
 
 const DetailsCard = () => {
-    // 1. Initialize state synchronously from localStorage so it's never undefined on the first render
-    const [id, setId] = useState(() => localStorage.getItem("id"));
+    const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [related, setRelated] = useState([]);
     const [qty, setQty] = useState(1);
@@ -22,7 +21,6 @@ const DetailsCard = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
 
-        // 2. Safeguard: if there's no ID in local storage yet, don't attempt the fetch
         if (!id) return;
 
         const loadProduct = async () => {

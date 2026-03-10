@@ -20,7 +20,7 @@ function App() {
           <Route path='/Favorite' element={<Favorite />} />
           <Route path='/Admin' element={<Admin />} />
           <Route path='/Cart' element={<Cart />} />
-          <Route path="/Details" element={<DetailsCard />} />
+          <Route path="/details/:id" element={<DetailsCard />} />
         </Routes>
       </HashRouter>
     </>
