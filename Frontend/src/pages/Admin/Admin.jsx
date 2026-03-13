@@ -4,10 +4,12 @@ import style from './Admin.module.css';
 import NavBar from '../../components/Navbar/Navbar';
 import Category from '../../components/Category/Category';
 import Product from '../../components/Product/Product';
+import Dashboard from '../../components/Dashboard/Dashboard';
 import Order from '../../components/Order/Order';
 import { MdAdminPanelSettings, MdNotificationsActive } from "react-icons/md";
 import { BiCategory } from "react-icons/bi";
 import { FiShoppingBag } from "react-icons/fi";
+import { FcStatistics } from "react-icons/fc";
 
 const Admin = () => {
     const [display, setDisplay] = useState("orders");
@@ -79,6 +81,14 @@ const Admin = () => {
                             <BiCategory size={20} />
                             <span className={style.linkText}>ادارة المجموعات</span>
                         </button>
+
+                        <button
+                            className={`${style.navButton} ${display === "categories" ? style.active : ""}`}
+                            onClick={() => setDisplay("dashboard")}
+                        >
+                            <FcStatistics size={20} />
+                            <span className={style.linkText}>الاحصائيات</span>
+                        </button>
                     </nav>
                 </aside>
 
@@ -86,6 +96,7 @@ const Admin = () => {
                     {display === "categories" && <Category />}
                     {display === "products" && <Product />}
                     {display === "orders" && <Order />}
+                    {display === "dashboard" && <Dashboard />}
                 </main>
             </div>
         </div>
