@@ -32,7 +32,7 @@ const SideMenue = ({ display }) => {
                     localStorage.getItem("role") === "admin" &&
                     <div className={style.section}>
                         <MdAdminPanelSettings className={style.adminButton} onClick={() => navigate("/admin")} size={45} color='#EB8E1E' />
-                        <p onClick={() => navigate('/favorite')}>لوحة التحكم</p>
+                        <p onClick={() => navigate('/admin')}>لوحة التحكم</p>
                     </div>
                 }
                 {
