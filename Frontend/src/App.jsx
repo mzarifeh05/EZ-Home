@@ -5,6 +5,7 @@ import Home from './pages/Home/Home'
 import Favorite from './pages/Favorite/Favorite'
 import Admin from './pages/Admin/Admin'
 import Cart from './pages/Cart/Cart'
+import NotFound from './components/NotFound/NotFound'
 import DetailsCard from './components/DetailsCard/DetailsCard'
 import { HashRouter, Routes, Route } from 'react-router-dom';
 
@@ -21,6 +22,7 @@ function App() {
           <Route path='/Admin' element={<Admin />} />
           <Route path='/Cart' element={<Cart />} />
           <Route path="/details/:id" element={<DetailsCard />} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
       </HashRouter>
     </>

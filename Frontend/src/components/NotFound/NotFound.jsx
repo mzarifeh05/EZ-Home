@@ -1,0 +1,18 @@
+import style from './NotFound.module.css'
+import { Link } from 'react-router-dom'
+
+const NotFound = () => {
+    return (
+        <div className={style.container}>
+            <h1>حدث خطأ!</h1>
+            <h2>الصفحة غير موجودة</h2>
+            <p>
+                العودة الى
+                <span> </span>
+                <Link to="/">الصفحة الرئيسية</Link>
+            </p>
+        </div>
+    )
+}
+
+export default NotFound
