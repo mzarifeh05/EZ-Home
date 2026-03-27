@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 const NotFound = () => {
     return (
         <div className={style.container}>
-            <h1>حدث خطأ!</h1>
-            <h2>الصفحة غير موجودة</h2>
-            <p>
+            <h1 style={{color: 'white'}}>حدث خطأ!</h1>
+            <h2 style={{color: 'white'}}>الصفحة غير موجودة</h2>
+            <p style={{color: 'white'}}>
                 العودة الى
                 <span> </span>
                 <Link to="/">الصفحة الرئيسية</Link>

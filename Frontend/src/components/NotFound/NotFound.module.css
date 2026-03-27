@@ -7,10 +7,6 @@
     flex-direction: column;
 }
 
-h1, h2, p {
-    color: whitesmoke;
-}
-
 p a {
     color: #EB8E1E;
 }
